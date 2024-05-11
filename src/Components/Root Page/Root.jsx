@@ -6,11 +6,11 @@ import { Link, Outlet } from "react-router-dom";
 
 const Root = () => {
     return (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row gap-[20px]">
 
             
          
-            <div className="bg-blue-500 w-[200px]  h-[1000px] ">
+            <div className="bg-blue-500 md:w-[350px] lg:w-[250px]  md:h-[1000px] ">
 
            <div className="flex pt-[20px]">
             <img className="h-[50px] w-[50px]" src="https://i.ibb.co/288YtK5/1245850.png" alt="" />
