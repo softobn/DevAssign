@@ -1,30 +1,37 @@
-import Navbar from "../Navbar/Navbar";
+
 import { AiOutlineProject } from "react-icons/ai";
 import { MdDeveloperBoard } from "react-icons/md";
 import { MdSpaceDashboard } from "react-icons/md";
+import { Link, Outlet } from "react-router-dom";
 
 const Root = () => {
     return (
-        <div className="">
+        <div className="flex">
 
             
          
             <div className="bg-blue-500 w-[200px]  h-[1000px] ">
 
-            <h1 className="text-center text-[28px] text-white font-bold pt-[20px]">DevAssign</h1>
+           <div className="flex pt-[20px]">
+            <img className="h-[50px] w-[50px]" src="https://i.ibb.co/288YtK5/1245850.png" alt="" />
+           <h1 className="text-center text-[28px] text-white font-bold">Dev<span className="text-blue-900">Assign</span></h1>
+
+           </div>
 
     <div className="relative top-[40px] ">
         <img className="h-[100px] w-[100px] rounded-[50%] mx-auto" src="https://i.ibb.co/Hrzhnr8/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg" alt="" />
     </div>
 
+               <Link to={'/dashboard'}>
                <div className="focus:border-l-[10px] border-blue-950 mt-[80px] "tabIndex="0">
             <MdSpaceDashboard className="text-[35px] mx-auto"></MdSpaceDashboard> 
-               <h1 className="text-[30px] text-white font-semibold text-center" >Dash Board</h1>
+               <h1 className="text-[30px] text-white font-semibold text-center" >Dashboard</h1>
                </div>
+               </Link>
 
                <div className="focus:border-l-[10px] border-blue-950 mt-[30px]"tabIndex="0">
             <AiOutlineProject className="text-[35px] mx-auto"></AiOutlineProject> 
-               <h1 className="text-[30px] text-white font-semibold text-center" >projects</h1>
+               <h1 className="text-[30px] text-white font-semibold text-center" >Projects</h1>
                </div>
 
               <div className="focus:border-l-[10px] border-blue-950"tabIndex="0">
@@ -32,6 +39,8 @@ const Root = () => {
               <h1 className="text-[30px] text-white font-semibold text-center">Developers</h1>
               </div>
             </div>
+
+            <Outlet></Outlet>
         </div>
     );
 };
