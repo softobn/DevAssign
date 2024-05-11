@@ -104,25 +104,25 @@ useEffect(() => {
   <div className="w-[250px] rounded-[8px] bg-slate-500 py-[10px]  text-white">
     <FaPeopleGroup className="text-[38px] mx-auto"></FaPeopleGroup>
     <div>
-    <h1 className="text-[18px] font-semibold text-center">Developer Number</h1>
+    <h1 className="text-[18px] font-semibold text-center">Developers</h1>
     <h1 className="stat-value text-center">{developer}</h1>
     </div>
   </div>
   <div className="w-[250px] rounded-[8px] bg-slate-500 py-[10px] text-white">
   <MdOutlineCreateNewFolder className="text-[38px] mx-auto"></MdOutlineCreateNewFolder>
-    <div className="text-[18px] font-semibold text-center">Created project Number</div>
+    <div className="text-[18px] font-semibold text-center">Created projects</div>
     <div className="stat-value text-center">{Created}</div>
    
   </div>
   <div className="w-[250px] rounded-[8px]  py-[10px] bg-slate-500 text-white">
   <GrInProgress className="text-[38px] mx-auto"></GrInProgress>
-    <div className="text-[18px] font-semibold text-center">Project inprocess Number</div>
+    <div className="text-[18px] font-semibold text-center">In process project</div>
     <div className="stat-value text-center">{process}</div>
    
   </div>
   <div className="w-[250px] rounded-[8px] bg-slate-500 py-[10px]  text-white">
   <IoIosCloudDone className="text-[38px] mx-auto"></IoIosCloudDone>
-    <div className="text-[18px] font-semibold text-center">Complete project Number</div>
+    <div className="text-[18px] font-semibold text-center">Completed project</div>
     <div className="stat-value text-center">{completed}</div>
    
   </div>
