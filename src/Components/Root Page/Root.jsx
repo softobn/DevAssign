@@ -10,7 +10,7 @@ const Root = () => {
 
             
          
-            <div className="bg-blue-500 md:w-[350px] lg:w-[250px]  md:h-[1000px] ">
+            <div className="bg-blue-500 md:w-[220px] lg:w-[250px]  md:h-[1000px] ">
 
            <div className="flex pt-[20px]">
             <img className="h-[50px] w-[50px]" src="https://i.ibb.co/288YtK5/1245850.png" alt="" />
@@ -29,10 +29,12 @@ const Root = () => {
                </div>
                </Link>
 
+               <Link to={"/projects/inprocess"}>
                <div className="focus:border-l-[10px] border-blue-950 mt-[30px]"tabIndex="0">
             <AiOutlineProject className="text-[35px] mx-auto"></AiOutlineProject> 
                <h1 className="text-[30px] text-white font-semibold text-center" >Projects</h1>
                </div>
+               </Link>
 
               <div className="focus:border-l-[10px] border-blue-950"tabIndex="0">
                    <MdDeveloperBoard className="text-[35px] mx-auto mt-[30px]"></MdDeveloperBoard>

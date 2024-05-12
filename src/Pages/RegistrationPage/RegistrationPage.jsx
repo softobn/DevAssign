@@ -1,11 +1,41 @@
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
+import Swal from "sweetalert2";
 const RegistrationPage = () => {
   const [showDetails, setShowDetails] = useState({});
   const [showImagePreview, setShowImagePreview] = useState({});
   const [userGender, setUserGender] = useState("");
   const [userMaritalStatus, setUserMaritalStatus] = useState("");
-  console.log(showDetails);
+
+  const [photo,setPhoto] = useState('')
+
+
+
+// photo work
+
+const formData = new FormData();
+  formData.append('image', showDetails);
+
+fetch(`https://api.imgbb.com/1/upload?key=96b7b85bb1dcb7f6334d65eb9802db5b`,{
+  method: 'POST',
+  
+
+  body: formData
+})
+.then(res => res.json())
+.then(data => {
+  // get the url that come from img BB 
+
+  // save the url in a state
+  setPhoto(data.data.image.url)
+
+});
+
+console.log(photo);
+
+
+
+
   const handleRegistration = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -19,40 +49,57 @@ const RegistrationPage = () => {
     const userPassword = form.password.value;
     const userReEnterPassword = form.reEnterPassword.value;
     const userArea = form.area.value;
-    const data = {
-      userFirstName: userFirstName,
-      userLastName: userLastName,
-      userEmail: userEmail,
-      userPhoneNumber: userPhoneNumber,
-      userBirthData: userBirthData,
-      userReligion: userReligion,
-      userAddress: userAddress,
-      userPassword: userPassword,
-      userReEnterPassword: userReEnterPassword,
-      city: userArea,
-      userGender: userGender,
-      userMaritalStatus: userMaritalStatus,
-    };
-    const DotNeededData = {
-      phone_number: userPhoneNumber,
-      email: userEmail,
-      first_name: userFirstName,
-      last_name: userLastName,
-      gender: userGender,
-      religion: userReligion,
-      date_of_birth: userBirthData,
-      area: userArea,
-      address: userPassword,
-      marital_status: userMaritalStatus,
-      profile_picture:
-        "https//th.bing.com/th/id/OIP.VyqEYMsU2XuSVnrtW6nqAAHaE8?rs=1&pid=ImgDetMain",
-      password: userReEnterPassword,
-    };
-    console.log(data);
+     const DotNeededData = {
+  phone_number: userPhoneNumber,
+  email: userEmail,
+  first_name: userFirstName,
+  last_name: userLastName,
+  gender: userGender,
+  religion: userReligion,
+  date_of_birth: userBirthData,
+  area: userArea,
+  address: userPassword,
+  marital_status: userMaritalStatus,
+  profile_picture: photo,
+  password: userReEnterPassword,
+};
+   
     console.log(DotNeededData);
+      
+// register
+
+fetch('https://softobn.pythonanywhere.com/api/user/developer-register/', {
+  method: "POST",
+  credentials: "include",
+  headers: {
+      "Content-Type": "application/json",
+  },
+  body: JSON.stringify(DotNeededData) 
+})
+.then(res => {          
+res.json();
+})
+.then(data => {
+
+  console.log(data);
+  
+
+  if(data === undefined) {
+    Swal.fire({
+      title: "Successfully SignUp",
+      text: "Your Account is created in DocMeet",
+      icon: "success",
+      
+    });
+      
+    }
+
+})
+
+
   };
   return (
-    <div className="min-h-scree flex justify-center items-center container mx-auto py-5 overflow-hidden">
+    <div className="min-h-scree flex justify-center items-center  py-5 overflow-hidden bg-[url('https://i.ibb.co/HFSH8Km/Hipster-Developer-Dice.jpg')] bg-cover ">
       <div className="w-[90%] md:w-[80%] lg:w-[80%] mx-auto">
         <form
           onSubmit={handleRegistration}
@@ -163,8 +210,9 @@ const RegistrationPage = () => {
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
-              type="date"
+              type="text"
               name="birthData"
+              placeholder="Year-month-day"
               id=""
               required
             />
@@ -381,7 +429,7 @@ const RegistrationPage = () => {
           </div>
 
           <button
-            className="text-start px-3 py-2 border rounded-md bg-white"
+            className="text-start px-3 py-2 border rounded-md bg-blue-500 font-bold text-white hover:bg-slate-600"
             type="submit"
           >
             Register
@@ -392,3 +440,22 @@ const RegistrationPage = () => {
   );
 };
 export default RegistrationPage;
+
+
+
+
+//  const DotNeededData = {
+//   phone_number: userPhoneNumber,
+//   email: userEmail,
+//   first_name: userFirstName,
+//   last_name: userLastName,
+//   gender: userGender,
+//   religion: userReligion,
+//   date_of_birth: userBirthData,
+//   area: userArea,
+//   address: userPassword,
+//   marital_status: userMaritalStatus,
+//   profile_picture:
+//     "https//th.bing.com/th/id/OIP.VyqEYMsU2XuSVnrtW6nqAAHaE8?rs=1&pid=ImgDetMain",
+//   password: userReEnterPassword,
+// };
