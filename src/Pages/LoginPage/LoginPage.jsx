@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -13,6 +18,47 @@ const LoginPage = () => {
       password: userPassword,
     };
     console.log(userData);
+
+
+    (async () => {
+      try {
+        const response = await fetch('https://softobn.pythonanywhere.com/api/user/login/', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData) 
+        });
+        const data = await response.json();
+
+        localStorage.setItem('Access token', data.access);
+        localStorage.setItem('Refresh token', data.refresh);
+
+        if(data.access) {
+          Swal.fire({
+            title: "Successfully login",
+            text: "You are now login in DevAssign",
+            icon: "success",      
+          });   
+          
+          form.reset();
+    
+          navigate(location?.state ? location.state : "/");
+        }
+    
+        if(data.detail === "No active account found with the given credentials"){
+          Swal.fire({
+            title: "No active account",
+            text: "No active account found with the given information!",
+            icon: "question",      
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    })();
+
+
   };
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-800">

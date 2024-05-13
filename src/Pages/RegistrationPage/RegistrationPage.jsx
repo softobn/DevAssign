@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 const RegistrationPage = () => {
   const [showDetails, setShowDetails] = useState({});
@@ -34,7 +35,7 @@ fetch(`https://api.imgbb.com/1/upload?key=96b7b85bb1dcb7f6334d65eb9802db5b`,{
 console.log(photo);
 
 
-
+const navigate = useNavigate();
 
   const handleRegistration = (e) => {
     e.preventDefault();
@@ -49,6 +50,8 @@ console.log(photo);
     const userPassword = form.password.value;
     const userReEnterPassword = form.reEnterPassword.value;
     const userArea = form.area.value;
+
+
      const DotNeededData = {
   phone_number: userPhoneNumber,
   email: userEmail,
@@ -58,7 +61,7 @@ console.log(photo);
   religion: userReligion,
   date_of_birth: userBirthData,
   area: userArea,
-  address: userPassword,
+  address: userAddress,
   marital_status: userMaritalStatus,
   profile_picture: photo,
   password: userReEnterPassword,
@@ -68,38 +71,45 @@ console.log(photo);
       
 // register
 
-fetch('https://softobn.pythonanywhere.com/api/user/developer-register/', {
-  method: "POST",
-  credentials: "include",
-  headers: {
-      "Content-Type": "application/json",
-  },
-  body: JSON.stringify(DotNeededData) 
-})
-.then(res => {          
-res.json();
-})
-.then(data => {
-
-  console.log(data);
-  
-
-  if(data === undefined) {
-    Swal.fire({
-      title: "Successfully SignUp",
-      text: "Your Account is created in DocMeet",
-      icon: "success",
-      
+(async () => {
+  try {
+    const response = await fetch('https://softobn.pythonanywhere.com/api/user/developer-register/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(DotNeededData) 
     });
+    const data = await response.json();
+    console.log(data);
+    if(data === "success") {
+      Swal.fire({
+        title: "Successfully SignUp",
+        text: "Your Account is created in DevAssign",
+        icon: "success",      
+      });   
       
+      form.reset();
+
+      navigate(location?.state ? location.state : "/login");
     }
 
-})
-
-
+    if(data === "unsuccess"){
+      Swal.fire({
+        title: "Error",
+        text: "Please enter the information correctly !",
+        icon: "error",      
+      });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+})();
   };
+
+
   return (
-    <div className="min-h-scree flex justify-center items-center  py-5 overflow-hidden bg-[url('https://i.ibb.co/HFSH8Km/Hipster-Developer-Dice.jpg')] bg-cover ">
+    <div className="min-h-scree flex justify-center items-center  py-5 overflow-hidden ">
       <div className="w-[90%] md:w-[80%] lg:w-[80%] mx-auto">
         <form
           onSubmit={handleRegistration}
@@ -118,7 +128,7 @@ res.json();
                 ) : (
                   <img
                     className="h-28 w-28 md:h-28 md:w-28 border rounded-md mx-auto"
-                    src="https://i.ibb.co/mtL872C/image.png"
+                    src="https://i.ibb.co/Hrzhnr8/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg"
                     alt=""
                   />
                 )}
@@ -343,12 +353,26 @@ res.json();
               </div>
             </div>
           </div>
-          {/* Marital Status */}
           <div className="flex items-start lg:items-center gap-5">
             <label className="font-medium text-lg text-nowrap">
               <span>Marital Status</span>
             </label>
             <div className="flex flex-wrap justify-center gap-5 text-center">
+              {/* Single */}
+              <div className="text-xl flex flex-row-reverse items-center gap-2">
+                <label htmlFor="single" className="font-medium text-lg">
+                  Single
+                </label>
+                <input
+                  onChange={() => setUserMaritalStatus("single")}
+                  checked={userMaritalStatus === "single"}
+                  className="h-6 cursor-pointer p-2 rounded-md"
+                  placeholder="Gender"
+                  type="radio"
+                  name="maritalStatus"
+                  id="single"
+                />
+              </div>
               {/* Married */}
               <div className="flex flex-row-reverse items-center gap-2">
                 <label htmlFor="married" className="font-medium text-lg">
@@ -365,34 +389,19 @@ res.json();
                   required
                 />
               </div>
-              {/* Unmarried */}
+              {/* Divorced */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="unmarried" className="font-medium text-lg">
-                  Unmarried
+                <label htmlFor="divorced" className="font-medium text-lg">
+                  Divorced
                 </label>
                 <input
-                  onChange={() => setUserMaritalStatus("unmarried")}
-                  checked={userMaritalStatus === "unmarried"}
+                  onChange={() => setUserMaritalStatus("divorced")}
+                  checked={userMaritalStatus === "divorced"}
                   className="h-6 cursor-pointer p-2 rounded-md"
                   placeholder="Gender"
                   type="radio"
                   name="maritalStatus"
-                  id="unmarried"
-                />
-              </div>
-              {/* Engaged */}
-              <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="engaged" className="font-medium text-lg">
-                  Engaged
-                </label>
-                <input
-                  onChange={() => setUserMaritalStatus("engaged")}
-                  checked={userMaritalStatus === "engaged"}
-                  className="h-6 cursor-pointer p-2 rounded-md"
-                  placeholder="Gender"
-                  type="radio"
-                  name="maritalStatus"
-                  id="engaged"
+                  id="divorced"
                 />
               </div>
               {/* Widowed */}
@@ -410,19 +419,35 @@ res.json();
                   id="widowed"
                 />
               </div>
-              {/* Divorced */}
+
+              {/* Separated */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="divorced" className="font-medium text-lg">
-                  Divorced
+                <label htmlFor="separated" className="font-medium text-lg">
+                  Separated
                 </label>
                 <input
-                  onChange={() => setUserMaritalStatus("divorced")}
-                  checked={userMaritalStatus === "divorced"}
+                  onChange={() => setUserMaritalStatus("separated")}
+                  checked={userMaritalStatus === "separated"}
                   className="h-6 cursor-pointer p-2 rounded-md"
                   placeholder="Gender"
                   type="radio"
                   name="maritalStatus"
-                  id="divorced"
+                  id="separated"
+                />
+              </div>
+              {/* Others */}
+              <div className="text-xl flex flex-row-reverse items-center gap-2">
+                <label htmlFor="others" className="font-medium text-lg">
+                  Others
+                </label>
+                <input
+                  onChange={() => setUserMaritalStatus("others")}
+                  checked={userMaritalStatus === "others"}
+                  className="h-6 cursor-pointer p-2 rounded-md"
+                  placeholder="Gender"
+                  type="radio"
+                  name="maritalStatus"
+                  id="others"
                 />
               </div>
             </div>

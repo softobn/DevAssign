@@ -13,7 +13,9 @@ const Projects = () => {
                 <h1 className="text-[25px] font-bold focus:border-b-[6px]   mt-[20px] pb-[15px]" tabIndex="0">COMPLETE</h1>
                 </Link>
             </div>
-            <button className="text-[45px] bg-slate-600 px-[20px]  text-white">+</button>
+            <Link to={"/createProject"}>
+            <button className="text-[45px] bg-slate-600 px-[20px] py-[6px]  text-white">+</button>
+            </Link>
             </div>
 
             <Outlet></Outlet>

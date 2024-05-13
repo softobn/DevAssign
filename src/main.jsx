@@ -9,6 +9,7 @@ import RegistrationPage from "./Pages/RegistrationPage/RegistrationPage";
 import Projects from "./Components/Projects/Projects";
 import Inprocess from "./Components/Projects/Inprocess/Inprocess";
 import Complete from "./Components/Projects/Complete/Complete";
+import CreateProject from "./Components/CreateProject/CreateProject";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
           element: <Complete></Complete>
         }
        ]
+      },
+      {
+         path: '/createProject',
+         element: <CreateProject></CreateProject> 
       },
     ],
   },
