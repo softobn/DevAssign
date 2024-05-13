@@ -5,7 +5,8 @@ const RegistrationPage = () => {
   const [showImagePreview, setShowImagePreview] = useState({});
   const [userGender, setUserGender] = useState("");
   const [userMaritalStatus, setUserMaritalStatus] = useState("");
-  console.log(showDetails);
+  // console.log(userGender);
+  // console.log(userMaritalStatus);
   const handleRegistration = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -42,7 +43,7 @@ const RegistrationPage = () => {
       religion: userReligion,
       date_of_birth: userBirthData,
       area: userArea,
-      address: userPassword,
+      address: userAddress,
       marital_status: userMaritalStatus,
       profile_picture:
         "https//th.bing.com/th/id/OIP.VyqEYMsU2XuSVnrtW6nqAAHaE8?rs=1&pid=ImgDetMain",
@@ -301,6 +302,21 @@ const RegistrationPage = () => {
               <span>Marital Status</span>
             </label>
             <div className="flex flex-wrap justify-center gap-5 text-center">
+              {/* Single */}
+              <div className="text-xl flex flex-row-reverse items-center gap-2">
+                <label htmlFor="single" className="font-medium text-lg">
+                  Single
+                </label>
+                <input
+                  onChange={() => setUserMaritalStatus("single")}
+                  checked={userMaritalStatus === "single"}
+                  className="h-6 cursor-pointer p-2 rounded-md"
+                  placeholder="Gender"
+                  type="radio"
+                  name="maritalStatus"
+                  id="single"
+                />
+              </div>
               {/* Married */}
               <div className="flex flex-row-reverse items-center gap-2">
                 <label htmlFor="married" className="font-medium text-lg">
@@ -317,34 +333,19 @@ const RegistrationPage = () => {
                   required
                 />
               </div>
-              {/* Unmarried */}
+              {/* Divorced */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="unmarried" className="font-medium text-lg">
-                  Unmarried
+                <label htmlFor="divorced" className="font-medium text-lg">
+                  Divorced
                 </label>
                 <input
-                  onChange={() => setUserMaritalStatus("unmarried")}
-                  checked={userMaritalStatus === "unmarried"}
+                  onChange={() => setUserMaritalStatus("divorced")}
+                  checked={userMaritalStatus === "divorced"}
                   className="h-6 cursor-pointer p-2 rounded-md"
                   placeholder="Gender"
                   type="radio"
                   name="maritalStatus"
-                  id="unmarried"
-                />
-              </div>
-              {/* Engaged */}
-              <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="engaged" className="font-medium text-lg">
-                  Engaged
-                </label>
-                <input
-                  onChange={() => setUserMaritalStatus("engaged")}
-                  checked={userMaritalStatus === "engaged"}
-                  className="h-6 cursor-pointer p-2 rounded-md"
-                  placeholder="Gender"
-                  type="radio"
-                  name="maritalStatus"
-                  id="engaged"
+                  id="divorced"
                 />
               </div>
               {/* Widowed */}
@@ -362,19 +363,35 @@ const RegistrationPage = () => {
                   id="widowed"
                 />
               </div>
-              {/* Divorced */}
+
+              {/* Separated */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="divorced" className="font-medium text-lg">
-                  Divorced
+                <label htmlFor="separated" className="font-medium text-lg">
+                  Separated
                 </label>
                 <input
-                  onChange={() => setUserMaritalStatus("divorced")}
-                  checked={userMaritalStatus === "divorced"}
+                  onChange={() => setUserMaritalStatus("separated")}
+                  checked={userMaritalStatus === "separated"}
                   className="h-6 cursor-pointer p-2 rounded-md"
                   placeholder="Gender"
                   type="radio"
                   name="maritalStatus"
-                  id="divorced"
+                  id="separated"
+                />
+              </div>
+              {/* Others */}
+              <div className="text-xl flex flex-row-reverse items-center gap-2">
+                <label htmlFor="others" className="font-medium text-lg">
+                  Others
+                </label>
+                <input
+                  onChange={() => setUserMaritalStatus("others")}
+                  checked={userMaritalStatus === "others"}
+                  className="h-6 cursor-pointer p-2 rounded-md"
+                  placeholder="Gender"
+                  type="radio"
+                  name="maritalStatus"
+                  id="others"
                 />
               </div>
             </div>

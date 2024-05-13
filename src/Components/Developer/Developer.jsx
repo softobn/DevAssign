@@ -38,7 +38,7 @@ const Developer = () => {
               <p className="font-medium">{data?.email}</p>
               <p className="font-medium">{data?.gender}</p>
               <p className="font-medium">{data?.religion}</p>
-              <p className="font-medium">Total Project: {data?.total_project}</p>
+              <p className="font-medium">Project {data?.total_project}</p>
             </div>
           </div>
         ))}
