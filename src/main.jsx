@@ -6,6 +6,7 @@ import Root from "./Components/Root Page/Root";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import RegistrationPage from "./Pages/RegistrationPage/RegistrationPage";
+import Developer from "./Components/Developer/Developer";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard></Dashboard>,
+      },
+      {
+        path: "/developer",
+        element: <Developer></Developer>,
       },
     ],
   },
