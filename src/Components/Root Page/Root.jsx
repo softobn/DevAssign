@@ -124,7 +124,7 @@ const handleLogout = () => {
                </div>
                </Link>
 
-               <Link to={"/projects"}>
+               <Link to={"/projects/inprocess"}>
                <div className="focus:border-l-[10px] border-blue-950 mt-[30px]"tabIndex="0">
             <AiOutlineProject className="text-[35px] mx-auto"></AiOutlineProject> 
                <h1 className="text-[30px] text-white font-semibold text-center" >Projects</h1>

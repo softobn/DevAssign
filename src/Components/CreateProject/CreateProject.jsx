@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 
 const CreateProject = () => {
+
+  const navigate = useNavigate();
 
 
 // photo select
@@ -60,12 +63,12 @@ const Rtoken = localStorage.getItem('Refresh token');
         const title = form.title.value;
         const description = form.description.value;
         const requirements = form.requirements.value;
-        const thumbnail = form.thumbnail.value;
+       
         const planned_start = form.planned_start.value;
         const planned_end = form.planned_end.value;
         const deadline = form.deadline.value;
        
-const newData = {title,description,requirements,thumbnail,planned_start,planned_end,deadline,images : image} 
+const newData = {title,description,requirements,thumbnail : image,planned_start,planned_end,deadline} 
 
 console.log(newData);
 
@@ -104,13 +107,24 @@ console.log(newtok);
       console.log(data);
 
 
-    //   if(data === "success") {
-    //     Swal.fire({
-    //       title: "Successfully SignUp",
-    //       text: "Your Account is created in DevAssign",
-    //       icon: "success",      
-    //     });   
-    //   }
+      if(data === "success") {
+        Swal.fire({
+          title: "Successfully ",
+          text: "You successfully create a project",
+          icon: "success",      
+        }); 
+        form.reset();
+
+      navigate(location?.state ? location.state : "/projects/inprocess");  
+      }
+
+      if(data === "unsuccess"){
+        Swal.fire({
+          title: "Error",
+          text: "Please enter the information correctly !",
+          icon: "error",      
+        });
+      }
   
     } catch (error) {
       console.error('Error:', error);
@@ -131,7 +145,8 @@ console.log(newtok);
 
   <div className="hero-content flex-col">
     <div className="text-center ">
-      <h1 className="text-5xl font-bold text-blue-500">Create Project!</h1>
+      <h1 className="text-5xl font-bold text-blue-500">Create Project If you manager!</h1>
+      <h1 className="text-[35px] font-bold text-white">Only manager can create project</h1>
       
     </div>
     <div className=" shrink-0  w-[500px] shadow-2xl bg-slate-500">
@@ -157,13 +172,6 @@ console.log(newtok);
             <span className="label-text text-[20px] font-semibold text-white">Requirements</span>
           </label>
           <input type="text" placeholder="Requirements" name="requirements" className="input input-bordered" required />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text text-[20px] font-semibold text-white">Thumbnail</span>
-          </label>
-          <input type="text" placeholder="Thumbnail URL" name="thumbnail" className="input input-bordered" required />
         </div>
 
 

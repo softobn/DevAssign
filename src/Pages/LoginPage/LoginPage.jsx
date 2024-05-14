@@ -43,7 +43,7 @@ const LoginPage = () => {
           
           form.reset();
     
-          navigate(location?.state ? location.state : "/");
+          navigate(location?.state ? location.state : "/dashboard");
         }
     
         if(data.detail === "No active account found with the given credentials"){
