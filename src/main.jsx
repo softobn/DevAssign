@@ -6,6 +6,10 @@ import Root from "./Components/Root Page/Root";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import RegistrationPage from "./Pages/RegistrationPage/RegistrationPage";
+import Projects from "./Components/Projects/Projects";
+import Inprocess from "./Components/Projects/Inprocess/Inprocess";
+import Complete from "./Components/Projects/Complete/Complete";
+import CreateProject from "./Components/CreateProject/CreateProject";
 import Developer from "./Components/Developer/Developer";
 
 const router = createBrowserRouter([
@@ -17,9 +21,29 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: <Dashboard></Dashboard>,
       },
+
       {
         path: "/developer",
         element: <Developer></Developer>,
+      },
+
+      {
+       path: "/projects",
+       element: <Projects></Projects>,
+       children: [
+        {
+          path: "/projects/inprocess",
+          element: <Inprocess></Inprocess>
+        },
+        {
+          path: "/projects/complete",
+          element: <Complete></Complete>
+        }
+       ]
+      },
+      {
+         path: '/createProject',
+         element: <CreateProject></CreateProject> 
       },
     ],
   },

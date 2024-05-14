@@ -98,36 +98,49 @@ useEffect(() => {
 
     return (
       
-           <div className="mt-[50px]">
-           <div className="flex flex-wrap  gap-[10px] ml-[60px] md:ml-0">
+           <div className=" bg-blue-500 w-[1500px] ">
+           <div className="flex flex-wrap  gap-[10px] ml-[60px] md:ml-[50px] mt-[50px]">
   
-  <div className="w-[250px] rounded-[8px] bg-slate-500 py-[10px]  text-white">
-    <FaPeopleGroup className="text-[38px] mx-auto"></FaPeopleGroup>
+  <div className="md:w-[120px] lg:w-[250px] rounded-[8px] bg-white">
+    <FaPeopleGroup className="text-[38px] mx-auto text-orange-400"></FaPeopleGroup>
     <div>
     <h1 className="text-[18px] font-semibold text-center">Developers</h1>
-    <h1 className="stat-value text-center">{developer}</h1>
+    <h1 className="stat-value text-center text-orange-400">{developer}</h1>
     </div>
   </div>
-  <div className="w-[250px] rounded-[8px] bg-slate-500 py-[10px] text-white">
-  <MdOutlineCreateNewFolder className="text-[38px] mx-auto"></MdOutlineCreateNewFolder>
+  <div className="md:w-[120px] lg:w-[250px] rounded-[8px] bg-white">
+  <MdOutlineCreateNewFolder className="text-[38px] mx-auto text-lime-500"></MdOutlineCreateNewFolder>
     <div className="text-[18px] font-semibold text-center">Created projects</div>
-    <div className="stat-value text-center">{Created}</div>
+    <div className="stat-value text-center text-lime-500">{Created}</div>
    
   </div>
-  <div className="w-[250px] rounded-[8px]  py-[10px] bg-slate-500 text-white">
-  <GrInProgress className="text-[38px] mx-auto"></GrInProgress>
+  <div className="md:w-[120px] lg:w-[250px] rounded-[8px]  py-[10px] bg-white">
+  <GrInProgress className="text-[33px] mx-auto text-yellow-400"></GrInProgress>
     <div className="text-[18px] font-semibold text-center">In process project</div>
-    <div className="stat-value text-center">{process}</div>
+    <div className="stat-value text-center text-yellow-400">{process}</div>
    
   </div>
-  <div className="w-[250px] rounded-[8px] bg-slate-500 py-[10px]  text-white">
-  <IoIosCloudDone className="text-[38px] mx-auto"></IoIosCloudDone>
+  <div className="md:w-[120px] lg:w-[250px] rounded-[8px] bg-white">
+  <IoIosCloudDone className="text-[38px] mx-auto text-red-400"></IoIosCloudDone>
     <div className="text-[18px] font-semibold text-center">Completed project</div>
-    <div className="stat-value text-center">{completed}</div>
+    <div className="stat-value text-center text-red-400">{completed}</div>
    
   </div>
+
   
 </div>
+
+
+
+    <div className="flex mt-[30px] gap-[30px] ml-[50px]">
+    <img className="bg-white h-[300px] w-[500px] py-[10px] px-[10px]" src="https://www.shutterstock.com/shutterstock/videos/1016301331/thumb/5.jpg" alt="" />
+    <img className="bg-white h-[300px] w-[500px] py-[10px] px-[10px]" src="https://th.bing.com/th/id/R.7bae49faf3273d7cbe92dd94d8c1f698?rik=yQAh2Zus07iIfw&pid=ImgRaw&r=0&fbclid=IwAR3287cAaUqXprULpJ9G7PB0xeNw-WgVWsVf7sXLnvV189ZWQqalKaFVAtI" alt="" />
+    </div>
+<div className="flex mt-[30px] gap-[30px] ml-[50px]">
+<img className="bg-white h-[300px] w-[500px] py-[5px] px-[10px]" src="https://th.bing.com/th/id/OIP.Zlrbkz_7aKhCuvC_o_IaNgHaI4?rs=1&pid=ImgDetMain&fbclid=IwAR1UT7U7TwP1wrve9aGoOrz97DweOAip_x8mI32EoTDnuQn6i3UV9jJpMME" alt="" />
+    <img className="bg-white h-[300px] w-[500px] py-[5px] px-[10px]" src="https://i.ibb.co/N1BgwYg/pie-chart-european-parlament-election.png" alt="" />
+</div>
+ 
            </div>
     );
 };
