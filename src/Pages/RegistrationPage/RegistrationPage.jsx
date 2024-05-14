@@ -1,12 +1,44 @@
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const RegistrationPage = () => {
   const [showDetails, setShowDetails] = useState({});
   const [showImagePreview, setShowImagePreview] = useState({});
   const [userGender, setUserGender] = useState("");
   const [userMaritalStatus, setUserMaritalStatus] = useState("");
-  // console.log(userGender);
-  // console.log(userMaritalStatus);
+
+
+  const [photo,setPhoto] = useState('')
+
+
+
+// photo work
+
+const formData = new FormData();
+  formData.append('image', showDetails);
+
+fetch(`https://api.imgbb.com/1/upload?key=96b7b85bb1dcb7f6334d65eb9802db5b`,{
+  method: 'POST',
+  
+
+  body: formData
+})
+.then(res => res.json())
+.then(data => {
+  // get the url that come from img BB 
+
+  // save the url in a state
+  setPhoto(data.data.image.url)
+
+});
+
+console.log(photo);
+
+
+const navigate = useNavigate();
+
+
   const handleRegistration = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -20,40 +52,66 @@ const RegistrationPage = () => {
     const userPassword = form.password.value;
     const userReEnterPassword = form.reEnterPassword.value;
     const userArea = form.area.value;
-    const data = {
-      userFirstName: userFirstName,
-      userLastName: userLastName,
-      userEmail: userEmail,
-      userPhoneNumber: userPhoneNumber,
-      userBirthData: userBirthData,
-      userReligion: userReligion,
-      userAddress: userAddress,
-      userPassword: userPassword,
-      userReEnterPassword: userReEnterPassword,
-      city: userArea,
-      userGender: userGender,
-      userMaritalStatus: userMaritalStatus,
-    };
-    const DotNeededData = {
-      phone_number: userPhoneNumber,
-      email: userEmail,
-      first_name: userFirstName,
-      last_name: userLastName,
-      gender: userGender,
-      religion: userReligion,
-      date_of_birth: userBirthData,
-      area: userArea,
-      address: userAddress,
-      marital_status: userMaritalStatus,
-      profile_picture:
-        "https//th.bing.com/th/id/OIP.VyqEYMsU2XuSVnrtW6nqAAHaE8?rs=1&pid=ImgDetMain",
-      password: userReEnterPassword,
-    };
+
+
+
+     const DotNeededData = {
+  phone_number: userPhoneNumber,
+  email: userEmail,
+  first_name: userFirstName,
+  last_name: userLastName,
+  gender: userGender,
+  religion: userReligion,
+  date_of_birth: userBirthData,
+  area: userArea,
+  address: userAddress,
+  marital_status: userMaritalStatus,
+  profile_picture: photo,
+  password: userReEnterPassword,
+};
+
+      
+// register
+
+(async () => {
+  try {
+    const response = await fetch('https://softobn.pythonanywhere.com/api/user/developer-register/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(DotNeededData) 
+    });
+    const data = await response.json();
     console.log(data);
-    console.log(DotNeededData);
+    if(data === "success") {
+      Swal.fire({
+        title: "Successfully SignUp",
+        text: "Your Account is created in DevAssign",
+        icon: "success",      
+      });   
+      
+      form.reset();
+
+      navigate(location?.state ? location.state : "/login");
+    }
+
+    if(data === "unsuccess"){
+      Swal.fire({
+        title: "Error",
+        text: "Please enter the information correctly !",
+        icon: "error",      
+      });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+})();
   };
+
+
   return (
-    <div className="min-h-scree flex justify-center items-center container mx-auto py-5 overflow-hidden">
+    <div className="min-h-scree flex justify-center items-center  py-5 overflow-hidden ">
       <div className="w-[90%] md:w-[80%] lg:w-[80%] mx-auto">
         <form
           onSubmit={handleRegistration}
@@ -72,7 +130,7 @@ const RegistrationPage = () => {
                 ) : (
                   <img
                     className="h-28 w-28 md:h-28 md:w-28 border rounded-md mx-auto"
-                    src="https://i.ibb.co/mtL872C/image.png"
+                    src="https://i.ibb.co/Hrzhnr8/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg"
                     alt=""
                   />
                 )}
@@ -164,8 +222,9 @@ const RegistrationPage = () => {
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
-              type="date"
+              type="text"
               name="birthData"
+              placeholder="Year-month-day"
               id=""
               required
             />
@@ -296,7 +355,6 @@ const RegistrationPage = () => {
               </div>
             </div>
           </div>
-          {/* Marital Status */}
           <div className="flex items-start lg:items-center gap-5">
             <label className="font-medium text-lg text-nowrap">
               <span>Marital Status</span>
@@ -398,7 +456,7 @@ const RegistrationPage = () => {
           </div>
 
           <button
-            className="text-start px-3 py-2 border rounded-md bg-white"
+            className="text-start px-3 py-2 border rounded-md bg-blue-500 font-bold text-white hover:bg-slate-600"
             type="submit"
           >
             Register
@@ -409,3 +467,22 @@ const RegistrationPage = () => {
   );
 };
 export default RegistrationPage;
+
+
+
+
+//  const DotNeededData = {
+//   phone_number: userPhoneNumber,
+//   email: userEmail,
+//   first_name: userFirstName,
+//   last_name: userLastName,
+//   gender: userGender,
+//   religion: userReligion,
+//   date_of_birth: userBirthData,
+//   area: userArea,
+//   address: userPassword,
+//   marital_status: userMaritalStatus,
+//   profile_picture:
+//     "https//th.bing.com/th/id/OIP.VyqEYMsU2XuSVnrtW6nqAAHaE8?rs=1&pid=ImgDetMain",
+//   password: userReEnterPassword,
+// };
