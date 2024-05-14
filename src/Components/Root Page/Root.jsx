@@ -131,10 +131,12 @@ const handleLogout = () => {
                </div>
                </Link>
 
+              <Link to={'/developer'}>
               <div className="focus:border-l-[10px] border-blue-950"tabIndex="0">
                    <MdDeveloperBoard className="text-[35px] mx-auto mt-[30px]"></MdDeveloperBoard>
               <h1 className="text-[30px] text-white font-semibold text-center">Developers</h1>
               </div>
+              </Link>
             </div>
 
             <Outlet></Outlet>
