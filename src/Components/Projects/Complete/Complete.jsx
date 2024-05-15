@@ -43,7 +43,7 @@ const Complete = () => {
       </tr>
     </thead>
    {
-    projectinfo.map((item,index) =>  <tbody>
+    projectinfo.map((item,index) =>  <tbody key={index}>
         {/* row 1 */}
         <tr className=" text-[18px] text-center">
           <th className="border-y-2">{index+1}</th>
