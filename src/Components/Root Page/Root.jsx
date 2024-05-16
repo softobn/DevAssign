@@ -79,7 +79,7 @@ const handleLogout = () => {
 
             
          
-            <div className="bg-blue-500 md:w-[220px] lg:w-[250px]  md:h-[1000px] ">
+            <div className="bg-blue-500 w-full md:w-[220px] lg:w-[250px]  md:h-[1000px] ">
 
            <div className="flex pt-[20px]">
             <img className="h-[50px] w-[50px]" src="https://i.ibb.co/288YtK5/1245850.png" alt="" />
@@ -117,7 +117,7 @@ const handleLogout = () => {
 
    
 
-               <Link to={'/dashboard'}>
+               <Link to={'/'}>
                <div className="focus:border-l-[10px] border-blue-950 mt-[80px] "tabIndex="0">
             <MdSpaceDashboard className="text-[35px] mx-auto"></MdSpaceDashboard> 
                <h1 className="text-[30px] text-white font-semibold text-center" >Dashboard</h1>

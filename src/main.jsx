@@ -11,6 +11,10 @@ import Inprocess from "./Components/Projects/Inprocess/Inprocess";
 import Complete from "./Components/Projects/Complete/Complete";
 import CreateProject from "./Components/CreateProject/CreateProject";
 import Developer from "./Components/Developer/Developer";
+import ProjectTaskPage from "./Components/ProjectTaskPage/ProjectTaskPage";
+import AddTaskPage from "./Components/ProjectTaskPage/AddTaskPage";
+import CreateSubTask from "./Components/ProjectTaskPage/CreateSubTask";
+import UpdateTaskPage from "./Components/ProjectTaskPage/UpdateTaskPage";
 
 const router = createBrowserRouter([
   {
@@ -28,22 +32,55 @@ const router = createBrowserRouter([
       },
 
       {
-       path: "/projects",
-       element: <Projects></Projects>,
-       children: [
-        {
-          path: "/projects/inprocess",
-          element: <Inprocess></Inprocess>
-        },
-        {
-          path: "/projects/complete",
-          element: <Complete></Complete>
-        }
-       ]
+        path: "/projects",
+        element: <Projects></Projects>,
+        children: [
+          {
+            path: "/projects/inprocess",
+            element: <Inprocess></Inprocess>,
+          },
+          {
+            path: "/projects/complete",
+            element: <Complete></Complete>,
+          },
+        ],
       },
       {
-         path: '/createProject',
-         element: <CreateProject></CreateProject> 
+        path: "/tasks/:id",
+        element: <ProjectTaskPage />,
+      },
+
+      {
+        path: "/updateTask",
+        element: <UpdateTaskPage></UpdateTaskPage>,
+      },
+      {
+        path: "/addTask",
+        element: <AddTaskPage></AddTaskPage>,
+      },
+      {
+        path: "/updateTask/:id",
+        element: <UpdateTaskPage></UpdateTaskPage>,
+        loader: ({ params }) =>
+          fetch(
+            `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${params.id}`,
+            {
+              method: "GET",
+              credentials: "include",
+              headers: {
+                "content-type": "application/json",
+              },
+            }
+          ),
+      },
+      {
+        path: "/createSubtasks",
+        element: <CreateSubTask></CreateSubTask>,
+      },
+
+      {
+        path: "/createProject",
+        element: <CreateProject></CreateProject>,
       },
     ],
   },
