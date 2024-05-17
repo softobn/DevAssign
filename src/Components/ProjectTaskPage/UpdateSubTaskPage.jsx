@@ -67,9 +67,9 @@ const UpdateSubTaskPage = () => {
         onSubmit={handleAddTask}
         className="border p-5 w-[80%] md:w-[50%] lg:w-[40%] mx-auto my-5 rounded-xl"
       >
-        <h1 className="font-bold text-center text-3xl">Update Task</h1>
+        <h1 className="font-bold text-center text-3xl">Update Sub-Task</h1>
         <h3 className="font-bold text-center text-2xl text-blue-300">
-          Only manager have permission to create task.
+          Only manager have permission to update sub-task.
         </h3>
         {/* title */}
         <div className="form-control">

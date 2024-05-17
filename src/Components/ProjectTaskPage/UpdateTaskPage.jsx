@@ -68,7 +68,7 @@ const AddTaskPage = () => {
       >
         <h1 className="font-bold text-center text-3xl">Update Task</h1>
         <h3 className="font-bold text-center text-2xl text-blue-300">
-          Only manager have permission to create task.
+          Only manager have permission to update task.
         </h3>
         {/* title */}
         <div className="form-control">
