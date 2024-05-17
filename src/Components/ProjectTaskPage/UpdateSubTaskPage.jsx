@@ -1,52 +1,37 @@
-import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const CreateSubTask = () => {
+const UpdateSubTaskPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { devProjectIds } = location.state;
-  console.log(devProjectIds);
-  const [newtok, setNewtok] = useState("");
   const accessToken = localStorage.getItem("Access token");
-  const refreshToken = localStorage.getItem("Refresh token");
-  const token = { Access: accessToken, refresh: refreshToken };
+  const UpdatedData = devProjectIds?.showSubTask.find(
+    (info) => info.id === devProjectIds?.updatedSubTaskId
+  );
+  console.log(UpdatedData);
   const handleAddTask = (e) => {
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
     const description = form.description.value;
-    const requirements = form.requirements.value;
     const deadline = form.deadline.value;
+    const requirements = form.requirements.value;
     const subTaskData = {
+      subtask_id: devProjectIds?.updatedSubTaskId,
       title: title,
-      task: 1,
       description: description,
       requirements: requirements,
       deadline: deadline,
     };
     console.log(subTaskData);
-    fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(token),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setNewtok(data.access);
-      });
-
-    console.log(newtok);
 
     (async () => {
       try {
         const response = await fetch(
-          "https://softobn.pythonanywhere.com/api/developer/subtask-create/",
+          "https://softobn.pythonanywhere.com/api/developer/subtask-update/",
           {
-            method: "POST",
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
@@ -60,12 +45,12 @@ const CreateSubTask = () => {
         if (data === "success") {
           Swal.fire({
             title: "Successfully ",
-            text: "Sub-Task Added successfully.",
+            text: "Sub-Task Updated successfully..",
             icon: "success",
           });
           navigate(location?.state ? location?.state?.pathname : "/");
         } else {
-          Swal.fire({
+          return Swal.fire({
             title: "Error",
             text: `${data?.detail}`,
             icon: "error",
@@ -82,9 +67,9 @@ const CreateSubTask = () => {
         onSubmit={handleAddTask}
         className="border p-5 w-[80%] md:w-[50%] lg:w-[40%] mx-auto my-5 rounded-xl"
       >
-        <h1 className="font-bold text-center text-3xl">Add Sub-Task</h1>
+        <h1 className="font-bold text-center text-3xl">Update Sub-Task</h1>
         <h3 className="font-bold text-center text-2xl text-blue-300">
-          Only Developer have permission to create sub-task.
+          Only manager have permission to update sub-task.
         </h3>
         {/* title */}
         <div className="form-control">
@@ -96,6 +81,7 @@ const CreateSubTask = () => {
           <input
             type="text"
             placeholder="Title"
+            defaultValue={UpdatedData?.title}
             name="title"
             className="input input-bordered"
             required
@@ -110,6 +96,7 @@ const CreateSubTask = () => {
           </label>
           <input
             type="text"
+            defaultValue={UpdatedData?.deadline}
             placeholder="Year-month-day"
             name="deadline"
             className="input input-bordered"
@@ -126,6 +113,7 @@ const CreateSubTask = () => {
           <input
             type="text"
             placeholder="Description"
+            defaultValue={UpdatedData?.description}
             name="description"
             className="input input-bordered"
             required
@@ -141,13 +129,17 @@ const CreateSubTask = () => {
           <input
             type="text"
             placeholder="Requirements"
+            defaultValue={UpdatedData?.requirements}
             name="requirements"
             className="input input-bordered"
             required
           />
         </div>
         <div className="mt-5">
-          <button type="Submit" className="px-4 py-2 rounded-lg bg-blue-500 text-white font-bold border-none">
+          <button
+            type="Submit"
+            className="px-4 py-2 rounded-lg bg-blue-500 text-white font-bold border-none"
+          >
             Submit
           </button>
         </div>
@@ -156,4 +148,4 @@ const CreateSubTask = () => {
   );
 };
 
-export default CreateSubTask;
+export default UpdateSubTaskPage;

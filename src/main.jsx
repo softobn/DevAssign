@@ -15,6 +15,7 @@ import ProjectTaskPage from "./Components/ProjectTaskPage/ProjectTaskPage";
 import AddTaskPage from "./Components/ProjectTaskPage/AddTaskPage";
 import CreateSubTask from "./Components/ProjectTaskPage/CreateSubTask";
 import UpdateTaskPage from "./Components/ProjectTaskPage/UpdateTaskPage";
+import UpdateSubTaskPage from "./Components/ProjectTaskPage/UpdateSubTaskPage";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/createSubtasks",
         element: <CreateSubTask></CreateSubTask>,
+      },
+      {
+        path: "/updateSubTask",
+        element: <UpdateSubTaskPage></UpdateSubTaskPage>,
       },
 
       {

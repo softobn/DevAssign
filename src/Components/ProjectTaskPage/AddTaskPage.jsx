@@ -4,10 +4,7 @@ import Swal from "sweetalert2";
 const AddTaskPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
-  console.log(navigate);
   const { devProjectIds } = location.state;
-  console.log(devProjectIds);
   const accessToken = localStorage.getItem("Access token");
   const handleAddTask = (e) => {
     e.preventDefault();
@@ -25,8 +22,6 @@ const AddTaskPage = () => {
       requirements: requirements,
       deadline: deadline,
     };
-    console.log(taskData);
-
     (async () => {
       try {
         const response = await fetch(
@@ -46,16 +41,14 @@ const AddTaskPage = () => {
         if (data === "success") {
           Swal.fire({
             title: "Successfully ",
-            text: "You successfully create a project",
+            text: "Task Added successfully..",
             icon: "success",
           });
           navigate(location?.state ? location?.state.pathname : "/");
-        }
-
-        if (data === "unsuccess") {
+        } else {
           Swal.fire({
             title: "Error",
-            text: "Please enter the information correctly !",
+            text: `${data?.detail}`,
             icon: "error",
           });
         }
