@@ -54,7 +54,7 @@ const Inprocess = () => {
                   </td>
                 )}
 
-                <td className="border-y flex gap-2 justify-center">
+                <td className="border-y flex gap-5 justify-center">
                   {item.deadline}
                   <Link to={`/tasks/${item?.id}`}>
                     <IoIosArrowForward size={25} className="font-bold text-blue-700"/>
