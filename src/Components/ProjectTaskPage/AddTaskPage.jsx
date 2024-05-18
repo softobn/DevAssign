@@ -5,6 +5,7 @@ const AddTaskPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { devProjectIds } = location.state;
+  console.log(devProjectIds);
   const accessToken = localStorage.getItem("Access token");
   const handleAddTask = (e) => {
     e.preventDefault();
