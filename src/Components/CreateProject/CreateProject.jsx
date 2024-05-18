@@ -52,7 +52,7 @@ const Rtoken = localStorage.getItem('Refresh token');
 
   const token = {Access : Atoken,refresh : Rtoken};
 
-  const [newtok,setNewtok] = useState('')
+
 
     // create project
 
@@ -85,18 +85,14 @@ fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`,{
 .then(res => res.json())
 .then(data => {
 
+  const newtok = data.access;
 
 
-  setNewtok(data.access);
-
-});
-
-console.log(newtok);
-
-(async () => {
+  (async () => {
     try {
       const response = await fetch('https://softobn.pythonanywhere.com/api/manager/project-create/', {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${newtok}`,
@@ -130,6 +126,9 @@ console.log(newtok);
       console.error('Error:', error);
     }
   })();
+
+});
+
 
     }
 

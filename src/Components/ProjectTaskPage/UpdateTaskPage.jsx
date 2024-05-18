@@ -4,11 +4,11 @@ import Swal from "sweetalert2";
 const AddTaskPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
-  console.log(navigate);
   const { devProjectIds } = location.state;
-  console.log(devProjectIds);
   const accessToken = localStorage.getItem("Access token");
+  const UpdatedData = devProjectIds?.taskList.find(
+    (info) => info.id === devProjectIds?.updateId
+  );
   const handleAddTask = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -23,8 +23,6 @@ const AddTaskPage = () => {
       requirements: requirements,
       deadline: deadline,
     };
-    console.log(taskData);
-
     (async () => {
       try {
         const response = await fetch(
@@ -44,18 +42,16 @@ const AddTaskPage = () => {
         if (data === "success") {
           Swal.fire({
             title: "Successfully ",
-            text: "You successfully create a project",
+            text: "Task Updated successfully..",
             icon: "success",
           });
           //   form.reset();
 
           navigate(location?.state ? location?.state.pathname : "/");
-        }
-
-        if (data === "unsuccess") {
-          Swal.fire({
+        } else {
+          return Swal.fire({
             title: "Error",
-            text: "Please enter the information correctly !",
+            text: `${data?.detail}`,
             icon: "error",
           });
         }
@@ -72,7 +68,7 @@ const AddTaskPage = () => {
       >
         <h1 className="font-bold text-center text-3xl">Update Task</h1>
         <h3 className="font-bold text-center text-2xl text-blue-300">
-          Only manager have permission to create task.
+          Only manager have permission to update task.
         </h3>
         {/* title */}
         <div className="form-control">
@@ -84,6 +80,7 @@ const AddTaskPage = () => {
           <input
             type="text"
             placeholder="Title"
+            defaultValue={UpdatedData?.title}
             name="title"
             className="input input-bordered"
             required
@@ -98,6 +95,7 @@ const AddTaskPage = () => {
           </label>
           <input
             type="text"
+            defaultValue={UpdatedData?.deadline}
             placeholder="Year-month-day"
             name="deadline"
             className="input input-bordered"
@@ -114,6 +112,7 @@ const AddTaskPage = () => {
           <input
             type="text"
             placeholder="Description"
+            defaultValue={UpdatedData?.description}
             name="description"
             className="input input-bordered"
             required
@@ -129,6 +128,7 @@ const AddTaskPage = () => {
           <input
             type="text"
             placeholder="Requirements"
+            defaultValue={UpdatedData?.requirements}
             name="requirements"
             className="input input-bordered"
             required
