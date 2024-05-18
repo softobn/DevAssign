@@ -517,14 +517,14 @@ const ProjectTaskPage = () => {
                     {addIcon === "sub-task" && (
                       <div>
                         {info?.is_complete === true ? (
-                          <button
-                            onClick={() => handleMarkStatus(info?.id)}
-                            className="font-bold text-white rounded-md px-3 py-1 bg-green-800"
-                          >
+                          <button className="font-bold text-white rounded-md px-3 py-1 bg-green-800">
                             Done
                           </button>
                         ) : (
-                          <button className="font-bold text-white rounded-md px-3 py-1 bg-pink-500">
+                          <button
+                            onClick={() => handleMarkStatus(info?.id)}
+                            className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
+                          >
                             On Going
                           </button>
                         )}
