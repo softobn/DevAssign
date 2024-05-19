@@ -11,6 +11,7 @@ const ProjectTaskPage = () => {
   console.log(addIcon);
   console.log("showSubTask", showSubTask);
   const { id } = useParams();
+  console.log(id);
   const [taskList, setTaskList] = useState([]);
   const [updateId, setUpdateId] = useState("");
   const [updatedSubTaskId, setUpdatedSubTaskId] = useState("");
@@ -399,7 +400,7 @@ const ProjectTaskPage = () => {
         </div>
 
         <div className="text-center text-lg md:text-xl font-bold space-y-1">
-          <h1>Title: {projectInfo?.title}</h1>
+          <h1>Project Title: {projectInfo?.title}</h1>
           <p>Deadline:{projectInfo?.deadline}</p>
           <p>Requirements: {projectInfo?.requirements}</p>
         </div>
@@ -430,8 +431,13 @@ const ProjectTaskPage = () => {
             <thead>
               <tr className="font-bold">
                 <th>*</th>
-                <th className="font-bold">Title</th>
+                <th className="font-bold">
+                  {addIcon === "task" ? "Task Title" : "Sub-Task Title"}
+                </th>
                 <th className="font-bold">Email</th>
+                {addIcon === "sub-task" && (
+                  <th className="font-bold">Task Title</th>
+                )}
                 <th className="font-bold">Deadline</th>
                 <th className="font-bold">Requirements</th>
                 <th className="font-bold">Description</th>
@@ -454,6 +460,7 @@ const ProjectTaskPage = () => {
                       {info?.developer_email}
                     </div>
                   </td>
+                  {addIcon === "sub-task" && <td>{info?.task_title}</td>}
                   <td>{info?.deadline}</td>
                   <td>{info?.requirements}</td>
                   <td>{info?.description}</td>
@@ -510,15 +517,15 @@ const ProjectTaskPage = () => {
                     {addIcon === "sub-task" && (
                       <div>
                         {info?.is_complete === true ? (
+                          <button className="font-bold text-white rounded-md px-3 py-1 bg-green-800">
+                            Done
+                          </button>
+                        ) : (
                           <button
                             onClick={() => handleMarkStatus(info?.id)}
                             className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
                           >
-                            On going
-                          </button>
-                        ) : (
-                          <button className="font-bold text-white rounded-md px-3 py-1 bg-green-700">
-                            Done
+                            On Going
                           </button>
                         )}
                       </div>
@@ -537,25 +544,26 @@ const ProjectTaskPage = () => {
             ))}
           </table>
         </div>
-        {addIcon === "task" && showSubTask.length <= 0 && (
+        {addIcon === "task" && (
           <div className="w-full mx-auto my-3 flex justify-center">
             <button
               title="Add Task"
               onClick={handleAddTask}
-              className="p-2 border-none text-center rounded-full text-white bg-blue-600"
+              className="p-2 border-none text-center rounded-full text-white bg-pink-500"
             >
               <FiPlus size={60} />
             </button>
           </div>
         )}
-        {addIcon === "sub-task" && showSubTask.length >= 0 && (
+        {addIcon === "sub-task" && (
           <div className="w-full mx-auto my-3 flex justify-center">
             <button
               title="Add Sub-Task"
               onClick={handleAddSubTask}
-              className="p-2 border-none text-center rounded-full text-white bg-blue-600"
+              className="p-2 border-none text-center rounded-full text-white bg-teal-500"
             >
-              <FiMinimize size={60} />
+              {/* <FiMinimize size={60} /> */}
+              <FiPlus size={60} />
             </button>
           </div>
         )}

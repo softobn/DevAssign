@@ -20,7 +20,7 @@ const CreateSubTask = () => {
     const deadline = form.deadline.value;
     const subTaskData = {
       title: title,
-      task: 1,
+      task: devProjectIds?.projectId,
       description: description,
       requirements: requirements,
       deadline: deadline,
