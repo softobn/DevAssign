@@ -4,6 +4,7 @@ import { FiMinimize, FiPlus } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { IoCloseCircleSharp } from "react-icons/io5";
+import { IoSend } from "react-icons/io5";
 
 const ProjectTaskPage = () => {
   const [allProjectInfo, setAllProjectInfo] = useState([]);
@@ -63,7 +64,7 @@ const ProjectTaskPage = () => {
     updatedSubTaskId,
   };
   const handleSubTasks = () => {
-    setAddIcon("sub-task");
+    setAddIcon("subtask");
     fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
       method: "POST",
       credentials: "include",
@@ -139,9 +140,7 @@ const ProjectTaskPage = () => {
       });
     }
   };
-  const handleComment = (id) => {
-    console.log(id);
-  };
+ 
   // old
   const handleMarkStatus = async (id) => {
     // console.log(id);
@@ -206,6 +205,172 @@ const ProjectTaskPage = () => {
 // Comment Section
 
 const [isComment,setisComment] = useState(false);
+
+const [commentList,setCommentList] = useState([]);
+
+const [taskOrSubtask,setTaskOrSubtask] = useState('');
+
+const [TorSid,setTorSid] =useState('')
+
+const handleComment = (id,addIcon) => {
+
+
+setTaskOrSubtask(addIcon);
+
+setTorSid(id);
+
+
+console.log(addIcon);
+
+
+
+    fetch(`https://softobn.pythonanywhere.com/api/user/comment-list/?${addIcon}_id=${id}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+       console.log(data);
+
+       setCommentList(data);
+      });
+};
+
+console.log(taskOrSubtask,TorSid);
+
+
+// create comment
+
+const handleCreateComment = (e) => {
+  
+
+  e.preventDefault();
+
+  const reply = e.target.comment.value;
+
+  console.log(reply);
+
+
+  // create task's section comment 
+  if(taskOrSubtask === 'task'){
+    fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`,{
+    method:"POST",
+    credentials: "include",
+    headers: {
+        "content-type":"application/json",
+        
+    },
+    body:  JSON.stringify(token) ,
+    
+})
+.then(res => res.json())
+.then(data => {
+
+  const newtok = data.access;
+
+
+  (async () => {
+    try {
+      const response = await fetch('https://softobn.pythonanywhere.com/api/user/comment-create/', {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${newtok}`,
+        },
+        body: JSON.stringify({reply : reply, task : TorSid}) 
+      });
+      const data = await response.json();
+      console.log(data);
+
+      e.target.reset();
+
+      fetch(`https://softobn.pythonanywhere.com/api/user/comment-list/?task_id=${TorSid}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+         console.log(data);
+  
+         setCommentList(data);
+        });
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  })();
+
+});
+  }
+
+// create subtask's section comment
+  if(taskOrSubtask === 'subtask'){
+    fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`,{
+    method:"POST",
+    credentials: "include",
+    headers: {
+        "content-type":"application/json",
+        
+    },
+    body:  JSON.stringify(token) ,
+    
+})
+.then(res => res.json())
+.then(data => {
+
+  const newtok = data.access;
+
+
+  (async () => {
+    try {
+      const response = await fetch('https://softobn.pythonanywhere.com/api/user/comment-create/', {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${newtok}`,
+        },
+        body: JSON.stringify({reply : reply, subtask : TorSid}) 
+      });
+      const data = await response.json();
+      console.log(data);
+
+      e.target.reset();
+
+      fetch(`https://softobn.pythonanywhere.com/api/user/comment-list/?subtask_id=${TorSid}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+         console.log(data);
+  
+         setCommentList(data);
+        });
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  })();
+
+});
+  }
+
+
+
+
+};
+
 
 
 
@@ -273,7 +438,7 @@ const [isComment,setisComment] = useState(false);
                       {info?.developer_email}
                     </div>
                   </td>
-                  {addIcon === "sub-task" && <td>{info?.task_title}</td>}
+                  {addIcon === "subtask" && <td>{info?.task_title}</td>}
                   <td>{info?.deadline}</td>
                   <td>{info?.requirements}</td>
                   <td>{info?.description}</td>
@@ -327,7 +492,7 @@ const [isComment,setisComment] = useState(false);
                         )}
                       </div>
                     )}
-                    {addIcon === "sub-task" && (
+                    {addIcon === "subtask" && (
                       <div>
                         {info?.is_complete === true ? (
                           <button className="font-bold text-white rounded-md px-3 py-1 bg-green-800">
@@ -346,7 +511,7 @@ const [isComment,setisComment] = useState(false);
                   </td>
                   <td>
                     <button
-                      onClick={() => handleComment(info.id)}
+                      onClick={() => handleComment(info.id,addIcon)}
                       className="font-bold text-white rounded-md px-3 py-1 bg-teal-500"
                     >
                       <span onClick={() => setisComment(true)}>Comments</span>
@@ -358,8 +523,8 @@ const [isComment,setisComment] = useState(false);
           </table>
         </div> :
 
-<div className="flex">
-<div className="overflow-x-auto overflow-auto min-h-[30vh] md:max-h-[45vh] lg:max-h-[40vh] xl:max-h-[55vh] w-[1100px]">
+<div className="flex flex-col md:flex-row">
+<div className="overflow-x-auto overflow-auto min-h-[30vh] md:max-h-[45vh] lg:max-h-[40vh] xl:max-h-[55vh] md:w-[600px] lg:w-[1100px]">
  {/* new added */}
 
  <table className="table">
@@ -372,7 +537,7 @@ const [isComment,setisComment] = useState(false);
          {addIcon === "task" ? "Task Title" : "Sub-Task Title"}
        </th>
        <th className="font-bold">Email</th>
-       {addIcon === "sub-task" && (
+       {addIcon === "subtask" && (
          <th className="font-bold">Task Title</th>
        )}
        <th className="font-bold">Deadline</th>
@@ -397,7 +562,7 @@ const [isComment,setisComment] = useState(false);
              {info?.developer_email}
            </div>
          </td>
-         {addIcon === "sub-task" && <td>{info?.task_title}</td>}
+         {addIcon === "subtask" && <td>{info?.task_title}</td>}
          <td>{info?.deadline}</td>
          <td>{info?.requirements}</td>
          <td>{info?.description}</td>
@@ -451,7 +616,7 @@ const [isComment,setisComment] = useState(false);
                )}
              </div>
            )}
-           {addIcon === "sub-task" && (
+           {addIcon === "subtask" && (
              <div>
                {info?.is_complete === true ? (
                  <button className="font-bold text-white rounded-md px-3 py-1 bg-green-800">
@@ -470,7 +635,7 @@ const [isComment,setisComment] = useState(false);
          </td>
          <td>
            <button
-             onClick={() => handleComment(info.id)}
+             onClick={() => handleComment(info.id,addIcon)}
              className="font-bold text-white rounded-md px-3 py-1 bg-teal-500"
            >
              Comments
@@ -482,38 +647,29 @@ const [isComment,setisComment] = useState(false);
  </table>
 </div>
 {/* comment section */}
-<div className="bg-slate-200 w-[350px] overflow-y-auto h-[508px]">
- <h1 className="text-[25px] font-bold pl-[20px] py-[5px] border-b-2 border-b-gray-500 flex items-center">Comment (3) <span><IoCloseCircleSharp onClick={() => setisComment(false)} className="text-[35px] text-red-400 ml-[110px]"></IoCloseCircleSharp></span></h1>
- <div className="py-[10px] px-[15px] flex  gap-[10px] border-b-2 border-b-gray-500">
-   <img className="w-[50px] h-[50px] rounded-[50%]" src="https://i.ibb.co/HB28YfJ/istockphoto-1300845620-612x612.jpg" alt="" />
+<div className="bg-slate-200 md:w-[550px] lg:w-[350px] overflow-y-auto md:h-[375px] lg:h-[508px]">
+ <h1 className="text-[25px] font-bold pl-[20px] py-[5px] border-b-2 border-b-gray-500 flex items-center">Comment ({commentList.length}) <span><IoCloseCircleSharp onClick={() => setisComment(false)} className="text-[35px] text-red-400 ml-[110px]"></IoCloseCircleSharp></span></h1>
 
-   <div>
-   <h1 className="text-[22px] font-bold">Zisan Islam</h1>
+ {
+ commentList.map(data => <div className="py-[10px] px-[15px] flex  gap-[10px] border-b-2 border-b-gray-500">
+ <img className="w-[50px] h-[50px] rounded-[50%]" src={data.user_picture} alt="" />
 
-<p className="text-[16px] font-medium text-left">It is a very challenging task... To complete it i gain lot of konwledge and experience... So i am very thankfull.</p>
-   </div>
+ <div>
+ <h1 className="text-[22px] font-bold">{data.user_first_name}</h1>
+
+<p className="text-[16px] font-medium text-left">{data.reply}</p>
  </div>
-
- <div className="py-[10px] px-[15px] flex  gap-[10px] border-b-2 border-b-gray-500">
-   <img className="w-[50px] h-[50px] rounded-[50%]" src="https://i.ibb.co/HB28YfJ/istockphoto-1300845620-612x612.jpg" alt="" />
-
-   <div>
-   <h1 className="text-[22px] font-bold">Zisan Islam</h1>
-
-<p className="text-[16px] font-medium">It is a very challenging task... To complete it i gain lot of konwledge and experience... So i am very thankfull.</p>
-   </div>
- </div>
+</div>)
+ }
 
 
- <div className="py-[10px] px-[15px] flex  gap-[10px] border-b-2">
-   <img className="w-[50px] h-[50px] rounded-[50%]" src="https://i.ibb.co/HB28YfJ/istockphoto-1300845620-612x612.jpg" alt="" />
+<div>
+<form  className="border-t-1 border-t-gray-500 py-[15px] px-[10px]  flex items-center gap-[10px] " onSubmit={handleCreateComment}>
+<input className=" pl-[10px] py-[8px] w-full bg-white" id="text" name="comment"  type="text" placeholder="Whrite your comment here" />
+<button><IoSend  className="size-[35px] items-center"></IoSend></button>
+</form>
+</div>
 
-   <div>
-   <h1 className="text-[22px] font-bold">Zisan Islam</h1>
-
-<p className="text-[16px] font-medium">It is a very challenging task... To complete it i gain lot of konwledge and experience... So i am very thankfull.</p>
-   </div>
- </div>
 
 </div>
 
@@ -533,7 +689,7 @@ const [isComment,setisComment] = useState(false);
             </button>
           </div>
         )}
-        {addIcon === "sub-task" && (
+        {addIcon === "subtask" && (
           <div className="w-full mx-auto my-3 flex justify-center">
             <button
               title="Add Sub-Task"
