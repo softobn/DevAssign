@@ -44,13 +44,37 @@ const ProjectTaskPage = () => {
   const projectInfo = allProjectInfo?.find((info) => info?.id !== id);
   // console.log(projectInfo);
 
+ 
+
+    // useEffect(() => {
+    //   fetch(
+    //     `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${id}`
+    //   )
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       console.log(data);
+    //       setTaskList(data)
+        
+    //     });
+    // },[]);
+
+    // console.log(taskList);
+  
+  
+
   const handleShowTask = () => {
+
+    setisComment(false);
     setAddIcon("task");
     fetch(
       `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${id}`
     )
       .then((res) => res.json())
-      .then((data) => setTaskList(data));
+      .then((data) => {
+          
+        
+        setTaskList(data)
+      });
   };
 
   // projects-> find the current task id.
@@ -65,6 +89,9 @@ const ProjectTaskPage = () => {
   };
   const handleSubTasks = () => {
     setAddIcon("subtask");
+
+    setisComment(false);
+
     fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
       method: "POST",
       credentials: "include",
@@ -204,6 +231,8 @@ const ProjectTaskPage = () => {
 
 // Comment Section
 
+
+ 
 const [isComment,setisComment] = useState(false);
 
 const [commentList,setCommentList] = useState([]);
@@ -212,10 +241,14 @@ const [taskOrSubtask,setTaskOrSubtask] = useState('');
 
 const [TorSid,setTorSid] =useState('')
 
+
+
 const handleComment = (id,addIcon) => {
 
 
 setTaskOrSubtask(addIcon);
+
+
 
 setTorSid(id);
 
@@ -239,7 +272,9 @@ console.log(addIcon);
       });
 };
 
-console.log(taskOrSubtask,TorSid);
+
+
+
 
 
 // create comment
@@ -382,14 +417,12 @@ const handleCreateComment = (e) => {
           <button
             onClick={handleShowTask}
             className="btn w-full bg-pink-500 text-white border-none focus:bg-blue-500 hover:bg-blue-400"
-          >
-            Task
-          </button>
+          ><span>Task</span></button>
           <button
             onClick={handleSubTasks}
             className="btn bg-teal-500 text-white border-none w-full focus:bg-blue-500 hover:bg-blue-400"
           >
-            Sub-Task
+           <span>Sub-Task</span>
           </button>
         </div>
 
@@ -512,7 +545,7 @@ const handleCreateComment = (e) => {
                   <td>
                     <button
                       onClick={() => handleComment(info.id,addIcon)}
-                      className="font-bold text-white rounded-md px-3 py-1 bg-teal-500"
+                      className='font-bold text-white rounded-md px-3 py-1 bg-teal-500 focus:bg-blue-400' tabIndex='0'
                     >
                       <span onClick={() => setisComment(true)}>Comments</span>
                     </button>
@@ -553,7 +586,7 @@ const handleCreateComment = (e) => {
      : taskList
    )?.map((info, index) => (
      <tbody key={index}>
-       <tr className="font-medium">
+       <tr className="font-medium ">
          <th>{index + 1}</th>
          <td>{info?.title}</td>
          <td>
@@ -636,7 +669,7 @@ const handleCreateComment = (e) => {
          <td>
            <button
              onClick={() => handleComment(info.id,addIcon)}
-             className="font-bold text-white rounded-md px-3 py-1 bg-teal-500"
+             className="font-bold text-white rounded-md px-3 py-1 bg-teal-500 focus:bg-blue-400" tabIndex="0"
            >
              Comments
            </button>
@@ -665,7 +698,7 @@ const handleCreateComment = (e) => {
 
 <div>
 <form  className="border-t-1 border-t-gray-500 py-[15px] px-[10px]  flex items-center gap-[10px] " onSubmit={handleCreateComment}>
-<input className=" pl-[10px] py-[8px] w-full bg-white" id="text" name="comment"  type="text" placeholder="Whrite your comment here" />
+<input className=" pl-[10px] py-[8px] w-full bg-white" id="text" name="comment"  type="text" placeholder="Write your comment here" />
 <button><IoSend  className="size-[35px] items-center"></IoSend></button>
 </form>
 </div>
