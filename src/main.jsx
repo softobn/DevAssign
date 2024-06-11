@@ -16,6 +16,7 @@ import AddTaskPage from "./Components/ProjectTaskPage/AddTaskPage";
 import CreateSubTask from "./Components/ProjectTaskPage/CreateSubTask";
 import UpdateTaskPage from "./Components/ProjectTaskPage/UpdateTaskPage";
 import UpdateSubTaskPage from "./Components/ProjectTaskPage/UpdateSubTaskPage";
+import Privat from "./Components/Privat/Privat";
 
 const router = createBrowserRouter([
   {
@@ -29,39 +30,39 @@ const router = createBrowserRouter([
 
       {
         path: "/developer",
-        element: <Developer></Developer>,
+        element: <Privat><Developer></Developer></Privat>,
       },
 
       {
         path: "/projects",
-        element: <Projects></Projects>,
+        element: <Privat><Projects></Projects></Privat>,
         children: [
           {
             path: "/projects/inprocess",
-            element: <Inprocess></Inprocess>,
+            element: <Privat><Inprocess></Inprocess></Privat>,
           },
           {
             path: "/projects/complete",
-            element: <Complete></Complete>,
+            element: <Privat><Complete></Complete></Privat>,
           },
         ],
       },
       {
         path: "/tasks/:id",
-        element: <ProjectTaskPage />,
+        element: <Privat><ProjectTaskPage /></Privat>,
       },
 
       {
         path: "/updateTask",
-        element: <UpdateTaskPage></UpdateTaskPage>,
+        element: <Privat><UpdateTaskPage></UpdateTaskPage></Privat>,
       },
       {
         path: "/addTask",
-        element: <AddTaskPage></AddTaskPage>,
+        element: <Privat><AddTaskPage></AddTaskPage></Privat>,
       },
       {
         path: "/updateTask/:id",
-        element: <UpdateTaskPage></UpdateTaskPage>,
+        element: <Privat><UpdateTaskPage></UpdateTaskPage></Privat>,
         loader: ({ params }) =>
           fetch(
             `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${params.id}`,
@@ -76,16 +77,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/createSubtasks",
-        element: <CreateSubTask></CreateSubTask>,
+        element: <Privat><CreateSubTask></CreateSubTask></Privat>,
       },
       {
         path: "/updateSubTask",
-        element: <UpdateSubTaskPage></UpdateSubTaskPage>,
+        element:<Privat><UpdateSubTaskPage></UpdateSubTaskPage></Privat>,
       },
 
       {
         path: "/createProject",
-        element: <CreateProject></CreateProject>,
+        element: <Privat><CreateProject></CreateProject></Privat>,
       },
     ],
   },

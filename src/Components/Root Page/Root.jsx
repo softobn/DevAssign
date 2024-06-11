@@ -81,11 +81,13 @@ const handleLogout = () => {
          
             <div className="bg-blue-500 w-[370px] md:w-[250px]  md:h-[1000px] ">
 
+           <Link to={"/"}>
            <div className="flex pt-[20px] ml-[100px] md:ml-[30px] lg:ml-[20px]">
             <img className="h-[50px] w-[50px]" src="https://i.ibb.co/288YtK5/1245850.png" alt="" />
            <h1 className="text-center text-[28px] text-white font-bold">Dev<span className="text-blue-900">Assign</span></h1>
 
            </div>
+           </Link>
 
            {
             Atoken ?  <div className="relative top-[40px] ">

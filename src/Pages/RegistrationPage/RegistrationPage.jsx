@@ -111,11 +111,11 @@ const navigate = useNavigate();
 
 
   return (
-    <div className="min-h-scree flex justify-center items-center   py-5 overflow-hidden bg-[url('https://i.ibb.co/ZhqFbjz/360-F-119115529-m-Enw3l-Gp-Ldl-Dkf-Lg-Rc-VSb-FRu-Vl6s-MDty.jpg')] bg-cover">
+    <div className="min-h-scree flex justify-center items-center   py-5 overflow-hidden bg-[url('https://i.ibb.co/tHZ5X4S/light-blue-project-management-concept-23-2147782704.jpg')]">
       <div className="w-[90%] md:w-[80%] lg:w-[80%] mx-auto">
         <form
           onSubmit={handleRegistration}
-          className="w-[90%] md:w-[80%] lg:w-[50%] ml-[5%] md:ml-[10%] lg:ml-[40%] p-5 border bg-slate-600  rounded-xl space-y-2"
+          className="w-[90%] md:w-[80%] lg:w-[50%] mx-auto p-5 border bg-slate-600  rounded-xl space-y-2"
         >
           {/* image */}
           <div className="flex gap-2">
