@@ -20,6 +20,10 @@ const Inprocess = () => {
       });
   }, [setProjectinfo]);
 
+  const handleRemoveLocalStorageAddIconStatus = () => {
+    localStorage.removeItem("addIcon");
+  };
+
   return (
     <div>
       <div className="overflow-x-auto mt-[20px]">
@@ -56,8 +60,14 @@ const Inprocess = () => {
 
                 <td className="border-y flex gap-5 justify-center">
                   {item.deadline}
-                  <Link to={`/tasks/${item?.id}`}>
-                    <IoIosArrowForward size={25} className="font-bold text-blue-700"/>
+                  <Link
+                    onClick={handleRemoveLocalStorageAddIconStatus}
+                    to={`/tasks/${item?.id}`}
+                  >
+                    <IoIosArrowForward
+                      size={25}
+                      className="font-bold text-blue-700"
+                    />
                   </Link>
                 </td>
               </tr>

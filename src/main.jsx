@@ -61,21 +61,6 @@ const router = createBrowserRouter([
         element: <Privat><AddTaskPage></AddTaskPage></Privat>,
       },
       {
-        path: "/updateTask/:id",
-        element: <Privat><UpdateTaskPage></UpdateTaskPage></Privat>,
-        loader: ({ params }) =>
-          fetch(
-            `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${params.id}`,
-            {
-              method: "GET",
-              credentials: "include",
-              headers: {
-                "content-type": "application/json",
-              },
-            }
-          ),
-      },
-      {
         path: "/createSubtasks",
         element: <Privat><CreateSubTask></CreateSubTask></Privat>,
       },

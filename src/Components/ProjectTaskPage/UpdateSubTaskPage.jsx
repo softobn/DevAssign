@@ -6,7 +6,7 @@ const UpdateSubTaskPage = () => {
   const navigate = useNavigate();
   const { devProjectIds } = location.state;
   const accessToken = localStorage.getItem("Access token");
-  const UpdatedData = devProjectIds?.showSubTask.find(
+  const UpdatedData = devProjectIds?.showSubTask?.find(
     (info) => info.id === devProjectIds?.updatedSubTaskId
   );
   console.log(UpdatedData);
