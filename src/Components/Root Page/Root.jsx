@@ -79,13 +79,15 @@ const handleLogout = () => {
 
             
          
-            <div className="bg-blue-500 md:w-[220px] lg:w-[250px]  md:h-[1000px] ">
+            <div className="bg-blue-500 w-[370px] md:w-[250px]  md:h-[1000px] ">
 
-           <div className="flex pt-[20px]">
+           <Link to={"/"}>
+           <div className="flex pt-[20px] ml-[100px] md:ml-[30px] lg:ml-[20px]">
             <img className="h-[50px] w-[50px]" src="https://i.ibb.co/288YtK5/1245850.png" alt="" />
            <h1 className="text-center text-[28px] text-white font-bold">Dev<span className="text-blue-900">Assign</span></h1>
 
            </div>
+           </Link>
 
            {
             Atoken ?  <div className="relative top-[40px] ">
@@ -97,7 +99,7 @@ const handleLogout = () => {
                     <img className="h-[100px] w-[100px] rounded-[50%] mx-auto" src="https://i.ibb.co/Hrzhnr8/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg" alt="" />
                 }</div>
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow  rounded-box w-[150px] bg-white">
-            <li className="hover:bg-blue-500 rounded-[10px] font-bold text-[20px]"><a>Profile</a></li>
+           
             <li onClick={handleLogout} className="hover:bg-blue-500 rounded-[10px] font-bold text-[20px]"><a>Logout</a></li>
           </ul>
         </div>
@@ -117,7 +119,7 @@ const handleLogout = () => {
 
    
 
-               <Link to={'/dashboard'}>
+               <Link to={'/'}>
                <div className="focus:border-l-[10px] border-blue-950 mt-[80px] "tabIndex="0">
             <MdSpaceDashboard className="text-[35px] mx-auto"></MdSpaceDashboard> 
                <h1 className="text-[30px] text-white font-semibold text-center" >Dashboard</h1>

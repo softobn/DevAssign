@@ -11,7 +11,7 @@ const Developer = () => {
     <div className="">
       <div className="grid grid-cols-1 w-full md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 py-5">
         {allDevelopersData.map((data, index) => (
-          <div
+          <div data-aos="fade-up-left"
             key={index}
             className="flex w-full gap-2 rounded-xl overflow-hidden shadow-2xl drop-shadow-2xl bg-blue-400"
           >

@@ -111,11 +111,11 @@ const navigate = useNavigate();
 
 
   return (
-    <div className="min-h-scree flex justify-center items-center  py-5 overflow-hidden ">
+    <div className="min-h-scree flex justify-center items-center   py-5 overflow-hidden bg-[url('https://i.ibb.co/tHZ5X4S/light-blue-project-management-concept-23-2147782704.jpg')]">
       <div className="w-[90%] md:w-[80%] lg:w-[80%] mx-auto">
         <form
           onSubmit={handleRegistration}
-          className="w-[90%] md:w-[80%] lg:w-[80%] mx-auto p-5 border rounded-xl space-y-2"
+          className="w-[90%] md:w-[80%] lg:w-[50%] mx-auto p-5 border bg-slate-600  rounded-xl space-y-2"
         >
           {/* image */}
           <div className="flex gap-2">
@@ -155,14 +155,14 @@ const navigate = useNavigate();
                 />
               </div>
             </div>
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-2xl font-bold text-white">
               Create a DevAssign account as a developer
             </h1>
           </div>
           {/* First name */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">First Name</span>
+              <span className="text-white">First Name</span>
             </label>
             <input
               className="h-[40px] border p-2 rounded-md focus:border-none"
@@ -176,7 +176,7 @@ const navigate = useNavigate();
           {/* Last name */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Last Name</span>
+              <span className="text-white">Last Name</span>
             </label>
             <input
               className="h-[40px] border p-2 rounded-md"
@@ -190,7 +190,7 @@ const navigate = useNavigate();
           {/* Email */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Email</span>
+              <span className="text-white">Email</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -204,7 +204,7 @@ const navigate = useNavigate();
           {/* Phone Number */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Phone Number</span>
+              <span className="text-white">Phone Number</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -218,7 +218,7 @@ const navigate = useNavigate();
           {/* date of Birth */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Date of Birth</span>
+              <span className="text-white">Date of Birth</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -232,7 +232,7 @@ const navigate = useNavigate();
           {/* Religion */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Religion</span>
+              <span className="text-white">Religion</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -246,7 +246,7 @@ const navigate = useNavigate();
           {/* Address */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Address</span>
+              <span className="text-white">Address</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -260,7 +260,7 @@ const navigate = useNavigate();
           {/* Area */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Area</span>
+              <span className="text-white">Area</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -274,7 +274,7 @@ const navigate = useNavigate();
           {/* Password */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Password</span>
+              <span className="text-white">Password</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -288,7 +288,7 @@ const navigate = useNavigate();
           {/* Re-Enter Password */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-lg">
-              <span className="">Re-Enter Password</span>
+              <span className="text-white">Re-Enter Password</span>
             </label>
             <input
               className="h-[40px] p-2 rounded-md border"
@@ -302,14 +302,14 @@ const navigate = useNavigate();
           {/* Gender */}
           <div className="flex items-start md:items-center gap-5">
             <label className="font-medium text-lg">
-              <span htmlFor="" className="">
+              <span htmlFor="" className="text-white">
                 Gender
               </span>
             </label>
             <div className="flex flex-wrap justify-center gap-5 text-center">
               {/* male */}
               <div className="flex flex-row-reverse items-center gap-2">
-                <label htmlFor="male" className="font-medium text-lg">
+                <label htmlFor="male" className="font-medium text-lg text-white">
                   Male
                 </label>
                 <input
@@ -325,7 +325,7 @@ const navigate = useNavigate();
               </div>
               {/* female */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="female" className="font-medium text-lg">
+                <label htmlFor="female" className="font-medium text-lg text-white">
                   Female
                 </label>
                 <input
@@ -340,7 +340,7 @@ const navigate = useNavigate();
               </div>
               {/* others */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="others" className="font-medium text-lg">
+                <label htmlFor="others" className="font-medium text-lg text-white">
                   Others
                 </label>
                 <input
@@ -355,14 +355,14 @@ const navigate = useNavigate();
               </div>
             </div>
           </div>
-          <div className="flex items-start lg:items-center gap-5">
-            <label className="font-medium text-lg text-nowrap">
+          <div className="flex items-start  gap-5">
+            <label className="font-medium text-lg text-nowrap text-white mt-[20px]">
               <span>Marital Status</span>
             </label>
-            <div className="flex flex-wrap justify-center gap-5 text-center">
+            <div className="flex flex-wrap justify-center gap-5 text-center mt-[15px]">
               {/* Single */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="single" className="font-medium text-lg">
+                <label htmlFor="single" className="font-medium text-lg text-white">
                   Single
                 </label>
                 <input
@@ -377,7 +377,7 @@ const navigate = useNavigate();
               </div>
               {/* Married */}
               <div className="flex flex-row-reverse items-center gap-2">
-                <label htmlFor="married" className="font-medium text-lg">
+                <label htmlFor="married" className="font-medium text-lg text-white">
                   Married
                 </label>
                 <input
@@ -393,7 +393,7 @@ const navigate = useNavigate();
               </div>
               {/* Divorced */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="divorced" className="font-medium text-lg">
+                <label htmlFor="divorced" className="font-medium text-lg text-white">
                   Divorced
                 </label>
                 <input
@@ -408,7 +408,7 @@ const navigate = useNavigate();
               </div>
               {/* Widowed */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="widowed" className="font-medium text-lg">
+                <label htmlFor="widowed" className="font-medium text-lg text-white">
                   Widowed
                 </label>
                 <input
@@ -424,7 +424,7 @@ const navigate = useNavigate();
 
               {/* Separated */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="separated" className="font-medium text-lg">
+                <label htmlFor="separated" className="font-medium text-lg text-white">
                   Separated
                 </label>
                 <input
@@ -439,7 +439,7 @@ const navigate = useNavigate();
               </div>
               {/* Others */}
               <div className="text-xl flex flex-row-reverse items-center gap-2">
-                <label htmlFor="others" className="font-medium text-lg">
+                <label htmlFor="others" className="font-medium text-lg text-white">
                   Others
                 </label>
                 <input

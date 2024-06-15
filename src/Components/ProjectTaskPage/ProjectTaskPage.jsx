@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FiMinimize, FiPlus } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
+import { IoCloseCircleSharp } from "react-icons/io5";
+import { IoSend } from "react-icons/io5";
 
 const ProjectTaskPage = () => {
   const [allProjectInfo, setAllProjectInfo] = useState([]);
@@ -42,22 +44,39 @@ const ProjectTaskPage = () => {
   const projectInfo = allProjectInfo?.find((info) => info?.id !== id);
   // console.log(projectInfo);
 
+ 
+
+    // useEffect(() => {
+    //   fetch(
+    //     `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${id}`
+    //   )
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       console.log(data);
+    //       setTaskList(data)
+        
+    //     });
+    // },[]);
+
+    // console.log(taskList);
+  
+  
+
   const handleShowTask = () => {
+
+    setisComment(false);
     setAddIcon("task");
     fetch(
       `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${id}`
     )
       .then((res) => res.json())
-      .then((data) => setTaskList(data));
+      .then((data) => {
+          
+        
+        setTaskList(data)
+      });
   };
-  // useEffect(() => {
-  //   // get and set all task list by using current project id.
-  //   fetch(
-  //     `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${id}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => setTaskList(data));
-  // }, [id]);
+
   // projects-> find the current task id.
   const projects = taskList?.find((task) => task?.project);
   const devProjectIds = {
@@ -69,7 +88,10 @@ const ProjectTaskPage = () => {
     updatedSubTaskId,
   };
   const handleSubTasks = () => {
-    setAddIcon("sub-task");
+    setAddIcon("subtask");
+
+    setisComment(false);
+
     fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
       method: "POST",
       credentials: "include",
@@ -85,24 +107,7 @@ const ProjectTaskPage = () => {
 
     console.log(newtok);
 
-    // (async () => {
-    //   try {
-    //     const response = await fetch(
-    //       `https://softobn.pythonanywhere.com/api/user/subtask-list/?task_id=${id}`,
-    //       {
-    //         method: "GET",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           Authorization: `Bearer ${newtok}`,
-    //         },
-    //       }
-    //     );
-    //     const data = await response.json();
-    //     console.log(data);
-    //   } catch (error) {
-    //     console.error("Error:", error);
-    //   }
-    // })();
+
 
     fetch(
       `https://softobn.pythonanywhere.com/api/user/subtask-list/?task_id=${id}`,
@@ -162,9 +167,7 @@ const ProjectTaskPage = () => {
       });
     }
   };
-  const handleComment = (id) => {
-    console.log(id);
-  };
+ 
   // old
   const handleMarkStatus = async (id) => {
     // console.log(id);
@@ -225,162 +228,188 @@ const ProjectTaskPage = () => {
       console.error("Error:", error);
     }
   };
-  // const handleMarkStatus = async (id) => {
-  //   // console.log(id);
-  //   fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(token),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setNewtok(data.access);
-  //     });
 
-  //   console.log("newtok", newtok);
-  //   try {
-  //     const status = {
-  //       task_id: id,
-  //     };
-  //     console.log("status", status);
-  //     const response = await fetch(
-  //       "https://softobn.pythonanywhere.com/api/developer/task-mark/",
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${newtok}`,
-  //         },
-  //         body: JSON.stringify(status),
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     console.log(data);
+// Comment Section
 
-  //     if (data === "success") {
-  //       Swal.fire({
-  //         title: "Successfully ",
-  //         text: "You successfully create a project",
-  //         icon: "success",
-  //       });
-  //       //   form.reset();
 
-  //       // navigate(location?.state ? location?.state.pathname : "/");
-  //     }
+ 
+const [isComment,setisComment] = useState(false);
 
-  //     if (data === "unsuccess") {
-  //       Swal.fire({
-  //         title: "Error",
-  //         text: "Please enter the information correctly !",
-  //         icon: "error",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
-  // const handleMarkStatus = async (id) => {
-  //   console.log(id);
-  //   fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(token),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setNewtok(data.access);
-  //     });
+const [commentList,setCommentList] = useState([]);
 
-  //   console.log("newtok", newtok);
-  //   (async () => {
-  //     const status = {
-  //       task_id: id,
-  //     };
-  //     console.log("status", status);
-  //     console.log(accessToken);
-  //     try {
-  //       const response = await fetch(
-  //         "https://softobn.pythonanywhere.com/api/developer/task-mark/",
-  //         {
-  //           method: "PATCH",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${accessToken}`,
-  //           },
-  //           body: JSON.stringify(status),
-  //         }
-  //       );
-  //       const data = await response.json();
-  //       console.log(data);
-  //       console.log(newtok);
+const [taskOrSubtask,setTaskOrSubtask] = useState('');
 
-  //       if (data === "success") {
-  //         Swal.fire({
-  //           title: "Successfully ",
-  //           text: "Task Added successfully..",
-  //           icon: "success",
-  //         });
-  //         navigate(location?.state ? location?.state.pathname : "/");
-  //       }
+const [TorSid,setTorSid] =useState('')
 
-  //       if (data === "unsuccess") {
-  //         Swal.fire({
-  //           title: "Error",
-  //           text: "Please enter the information correctly !",
-  //           icon: "error",
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   })();
-  //   // try {
-  //   //   const status = {
-  //   //     task_id: id,
-  //   //   };
-  //   //   console.log("status", status);
-  //   //   const response = await fetch(
-  //   //     "https://softobn.pythonanywhere.com/api/developer/task-mark/",
-  //   //     {
-  //   //       method: "PATCH",
-  //   //       headers: {
-  //   //         "Content-Type": "application/json",
-  //   //         Authorization: `Bearer ${newtok}`,
-  //   //       },
-  //   //       body: JSON.stringify(status),
-  //   //     }
-  //   //   );
-  //   //   const data = await response.json();
-  //   //   console.log(data);
 
-  //   //   if (data === "success") {
-  //   //     Swal.fire({
-  //   //       title: "Successfully ",
-  //   //       text: "successfully marked",
-  //   //       icon: "success",
-  //   //     });
-  //   //     //   form.reset();
 
-  //   //     // navigate(location?.state ? location?.state.pathname : "/");
-  //   //   }
+const handleComment = (id,addIcon) => {
 
-  //   //   if (data === "unsuccess") {
-  //   //     Swal.fire({
-  //   //       title: "Error",
-  //   //       text: "Please enter the information correctly !",
-  //   //       icon: "error",
-  //   //     });
-  //   //   }
-  //   // } catch (error) {
-  //   //   console.error("Error:", error);
-  //   // }
-  // };
+
+setTaskOrSubtask(addIcon);
+
+
+
+setTorSid(id);
+
+
+console.log(addIcon);
+
+
+
+    fetch(`https://softobn.pythonanywhere.com/api/user/comment-list/?${addIcon}_id=${id}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+       console.log(data);
+
+       setCommentList(data);
+      });
+};
+
+
+
+
+
+
+// create comment
+
+const handleCreateComment = (e) => {
+  
+
+  e.preventDefault();
+
+  const reply = e.target.comment.value;
+
+  console.log(reply);
+
+
+  // create task's section comment 
+  if(taskOrSubtask === 'task'){
+    fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`,{
+    method:"POST",
+    credentials: "include",
+    headers: {
+        "content-type":"application/json",
+        
+    },
+    body:  JSON.stringify(token) ,
+    
+})
+.then(res => res.json())
+.then(data => {
+
+  const newtok = data.access;
+
+
+  (async () => {
+    try {
+      const response = await fetch('https://softobn.pythonanywhere.com/api/user/comment-create/', {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${newtok}`,
+        },
+        body: JSON.stringify({reply : reply, task : TorSid}) 
+      });
+      const data = await response.json();
+      console.log(data);
+
+      e.target.reset();
+
+      fetch(`https://softobn.pythonanywhere.com/api/user/comment-list/?task_id=${TorSid}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+         console.log(data);
+  
+         setCommentList(data);
+        });
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  })();
+
+});
+  }
+
+// create subtask's section comment
+  if(taskOrSubtask === 'subtask'){
+    fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`,{
+    method:"POST",
+    credentials: "include",
+    headers: {
+        "content-type":"application/json",
+        
+    },
+    body:  JSON.stringify(token) ,
+    
+})
+.then(res => res.json())
+.then(data => {
+
+  const newtok = data.access;
+
+
+  (async () => {
+    try {
+      const response = await fetch('https://softobn.pythonanywhere.com/api/user/comment-create/', {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${newtok}`,
+        },
+        body: JSON.stringify({reply : reply, subtask : TorSid}) 
+      });
+      const data = await response.json();
+      console.log(data);
+
+      e.target.reset();
+
+      fetch(`https://softobn.pythonanywhere.com/api/user/comment-list/?subtask_id=${TorSid}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+         console.log(data);
+  
+         setCommentList(data);
+        });
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  })();
+
+});
+  }
+
+
+
+
+};
+
+
+
+
+  
   return (
     <div className="w-full md:max-h-[100vh] overflow-hidden">
       <div className="overflow-auto">
@@ -388,14 +417,12 @@ const ProjectTaskPage = () => {
           <button
             onClick={handleShowTask}
             className="btn w-full bg-pink-500 text-white border-none focus:bg-blue-500 hover:bg-blue-400"
-          >
-            Task
-          </button>
+          ><span>Task</span></button>
           <button
             onClick={handleSubTasks}
             className="btn bg-teal-500 text-white border-none w-full focus:bg-blue-500 hover:bg-blue-400"
           >
-            Sub-Task
+           <span>Sub-Task</span>
           </button>
         </div>
 
@@ -404,146 +431,192 @@ const ProjectTaskPage = () => {
           <p>Deadline:{projectInfo?.deadline}</p>
           <p>Requirements: {projectInfo?.requirements}</p>
         </div>
-        <div className="overflow-x-auto overflow-auto min-h-[30vh] md:max-h-[45vh] lg:max-h-[40vh] xl:max-h-[55vh]">
-          {/* new added */}
-          {/* <div className="w-full my-3 flex justify-center">
-            {showSubTask?.length === 0 && addIcon === "sub-task" ? (
-              <div className="mx-auto">
-                <p className="text-center text-2xl font-bold my-5">Empty</p>
-              </div>
-            ) : (
-              taskList?.length === 0 && (
-                <div className="mx-auto">
-                  <p className="text-center text-2xl font-bold my-5">Empty</p>
-                </div>
-              )
-            )}
-          </div> */}
-          <table className="table">
-            {/* <table
-            className={`${
-              showSubTask?.length === 0 && addIcon === "sub-task"
-                ? "hidden"
-                : taskList?.length === 0 && "hidden"
-            } table`}
-          > */}
-            {/* head */}
-            <thead>
-              <tr className="font-bold">
-                <th>*</th>
-                <th className="font-bold">
-                  {addIcon === "task" ? "Task Title" : "Sub-Task Title"}
-                </th>
-                <th className="font-bold">Email</th>
-                {addIcon === "sub-task" && (
-                  <th className="font-bold">Task Title</th>
-                )}
-                <th className="font-bold">Deadline</th>
-                <th className="font-bold">Requirements</th>
-                <th className="font-bold">Description</th>
-                <th className="font-bold">Update</th>
-                <th className="font-bold">Status</th>
-                <th className="font-bold">Comments</th>
-              </tr>
-            </thead>
-            {(showSubTask.length >= 0 && addIcon !== "task"
-              ? showSubTask
-              : taskList
-            )?.map((info, index) => (
-              <tbody key={index}>
-                <tr className="font-medium">
-                  <th>{index + 1}</th>
-                  <td>{info?.title}</td>
-                  <td>
-                    <div className="flex gap-1 items-center">
-                      <MdOutlineMarkEmailUnread size={20} />
-                      {info?.developer_email}
-                    </div>
-                  </td>
-                  {addIcon === "sub-task" && <td>{info?.task_title}</td>}
-                  <td>{info?.deadline}</td>
-                  <td>{info?.requirements}</td>
-                  <td>{info?.description}</td>
-                  <td>
-                    <div className="">
-                      {addIcon === "task" ? (
-                        <button
-                          onClick={() => handleUpdateTask(info?.id)}
-                          className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
-                        >
-                          <span onChange={() => setUpdateId(info.id)}>
-                            Update
-                          </span>
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleUpdateSubTask(info?.id)}
-                          className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
-                        >
-                          Update
-                        </button>
-                      )}
-                      <p className="text-xs text-center text-red-400">
-                        Please double click
-                      </p>
-                    </div>
-                  </td>
-                  <td>
-                    {addIcon === "task" && (
-                      <div className="">
-                        {info?.is_complete === false &&
-                        info?.is_active === true ? (
-                          <button
-                            onClick={() => handleMarkStatus(info?.id)}
-                            className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
-                          >
-                            On Going
-                          </button>
-                        ) : info?.is_complete === true &&
-                          info?.is_active === true ? (
-                          <button className="font-bold text-white rounded-md px-3 py-1 bg-red-500">
-                            Lately
-                          </button>
-                        ) : info?.is_complete === true &&
-                          info?.is_active === false ? (
-                          <button className="font-bold text-white rounded-md px-3 py-1 bg-green-700">
-                            Done
-                          </button>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    )}
-                    {addIcon === "sub-task" && (
-                      <div>
-                        {info?.is_complete === true ? (
-                          <button className="font-bold text-white rounded-md px-3 py-1 bg-green-800">
-                            Done
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleMarkStatus(info?.id)}
-                            className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
-                          >
-                            On Going
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleComment(info.id)}
-                      className="font-bold text-white rounded-md px-3 py-1 bg-teal-500"
-                    >
-                      Comments
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
+
+        
+      
+        <div className="flex ">
+<div className="overflow-x-auto overflow-auto min-h-[30vh] md:max-h-[45vh] lg:max-h-[40vh] xl:max-h-[55vh]">
+ {/* new added */}
+
+ <table className="table">
+  
+   {/* head */}
+   <thead>
+     <tr className="font-bold">
+       <th>*</th>
+       <th className="font-bold">
+         {addIcon === "task" ? "Task Title" : "Sub-Task Title"}
+       </th>
+       <th className="font-bold">Email</th>
+       {addIcon === "subtask" && (
+         <th className="font-bold">Task Title</th>
+       )}
+       <th className="font-bold">Deadline</th>
+       <th className="font-bold">Requirements</th>
+       <th className="font-bold">Description</th>
+       <th className="font-bold">Update</th>
+       <th className="font-bold">Status</th>
+       <th className="font-bold">Comments</th>
+     </tr>
+   </thead>
+   {(showSubTask.length >= 0 && addIcon !== "task"
+     ? showSubTask
+     : taskList
+   )?.map((info, index) => (
+     <tbody key={index}>
+       <tr className="font-medium ">
+         <th>{index + 1}</th>
+         <td>{info?.title}</td>
+         <td>
+           <div className="flex gap-1 items-center">
+             <MdOutlineMarkEmailUnread size={20} />
+             {info?.developer_email}
+           </div>
+         </td>
+         {addIcon === "subtask" && <td>{info?.task_title}</td>}
+         <td>{info?.deadline}</td>
+         <td>{info?.requirements}</td>
+         <td>{info?.description}</td>
+         <td>
+           <div className="">
+             {addIcon === "task" ? (
+               <button
+                 onClick={() => handleUpdateTask(info?.id)}
+                 className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
+               >
+                 <span onChange={() => setUpdateId(info.id)}>
+                   Update
+                 </span>
+               </button>
+             ) : (
+               <button
+                 onClick={() => handleUpdateSubTask(info?.id)}
+                 className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
+               >
+                 Update
+               </button>
+             )}
+             <p className="text-xs text-center text-red-400">
+               Please double click
+             </p>
+           </div>
+         </td>
+         <td>
+           {addIcon === "task" && (
+             <div className="">
+               {info?.is_complete === false &&
+               info?.is_active === true ? (
+                 <button
+                   onClick={() => handleMarkStatus(info?.id)}
+                   className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
+                 >
+                   On Going
+                 </button>
+               ) : info?.is_complete === true &&
+                 info?.is_active === true ? (
+                 <button className="font-bold text-white rounded-md px-3 py-1 bg-red-500">
+                   Lately
+                 </button>
+               ) : info?.is_complete === true &&
+                 info?.is_active === false ? (
+                 <button className="font-bold text-white rounded-md px-3 py-1 bg-green-700">
+                   Done
+                 </button>
+               ) : (
+                 ""
+               )}
+             </div>
+           )}
+           {addIcon === "subtask" && (
+             <div>
+               {info?.is_complete === true ? (
+                 <button className="font-bold text-white rounded-md px-3 py-1 bg-green-800">
+                   Done
+                 </button>
+               ) : (
+                 <button
+                   onClick={() => handleMarkStatus(info?.id)}
+                   className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
+                 >
+                   On Going
+                 </button>
+               )}
+             </div>
+           )}
+         </td>
+         <td>
+           <button
+             onClick={() => handleComment(info.id,addIcon)}
+             className="font-bold text-white rounded-md px-3 py-1 bg-teal-500 focus:bg-blue-400" tabIndex="0"
+           >
+             <span onClick={() => setisComment(true)}>Comments</span>
+           </button>
+         </td>
+       </tr>
+     </tbody>
+   ))}
+ </table>
+</div>
+{/* comment section */}
+
+{
+  isComment === false ? <div className="absolute hidden">
+  <h1 className="text-[25px] font-bold pl-[20px] py-[5px] border-b-2 border-b-gray-500 flex items-center">Comment ({commentList.length}) <span><IoCloseCircleSharp onClick={() => setisComment(false)} className="text-[35px] text-red-400 ml-[110px]"></IoCloseCircleSharp></span></h1>
+ 
+  {
+  commentList.map(data => <div className="py-[10px] px-[15px] flex  gap-[10px] border-b-2 border-b-gray-500">
+  <img className="w-[50px] h-[50px] rounded-[50%]" src={data.user_picture} alt="" />
+ 
+  <div>
+  <h1 className="text-[22px] font-bold">{data.user_first_name}</h1>
+ 
+ <p className="text-[16px] font-medium text-left">{data.reply}</p>
+  </div>
+ </div>)
+  }
+ 
+ 
+ <div>
+ <form  className="border-t-1 border-t-gray-500 py-[15px] px-[10px]  flex items-center gap-[10px] " onSubmit={handleCreateComment}>
+ <input className=" pl-[10px] py-[8px] w-full bg-white" id="text" name="comment"  type="text" placeholder="Write your comment here" />
+ <button><IoSend  className="size-[35px] items-center"></IoSend></button>
+ </form>
+ </div>
+ 
+ 
+ </div> : <div className="bg-slate-200 w-[1750px] md:w-[950px] lg:w-[550px] overflow-y-auto md:h-[375px] lg:h-[508px]">
+  <h1 className="text-[25px] font-bold pl-[20px] py-[5px] border-b-2 border-b-gray-500 flex items-center">Comment ({commentList.length}) <span><IoCloseCircleSharp onClick={() => setisComment(false)} className="text-[35px] text-red-400 ml-[110px]"></IoCloseCircleSharp></span></h1>
+ 
+  {
+  commentList.map(data => <div className="py-[10px] px-[15px] flex  gap-[10px] border-b-2 border-b-gray-500">
+  <img className="w-[50px] h-[50px] rounded-[50%]" src={data.user_picture} alt="" />
+ 
+  <div>
+  <h1 className="text-[22px] font-bold">{data.user_first_name}</h1>
+ 
+ <p className="text-[16px] font-medium text-left">{data.reply}</p>
+  </div>
+ </div>)
+  }
+ 
+ 
+ <div>
+ <form  className="border-t-1 border-t-gray-500 py-[15px] px-[10px]  flex items-center gap-[10px] " onSubmit={handleCreateComment}>
+ <input className=" pl-[10px] py-[8px] w-full bg-white" id="text" name="comment"  type="text" placeholder="Write your comment here" />
+ <button><IoSend  className="size-[35px] items-center"></IoSend></button>
+ </form>
+ </div>
+ 
+ 
+ </div>
+}
+
+
+
+</div>
+
+
+       
         {addIcon === "task" && (
           <div className="w-full mx-auto my-3 flex justify-center">
             <button
@@ -555,7 +628,7 @@ const ProjectTaskPage = () => {
             </button>
           </div>
         )}
-        {addIcon === "sub-task" && (
+        {addIcon === "subtask" && (
           <div className="w-full mx-auto my-3 flex justify-center">
             <button
               title="Add Sub-Task"
