@@ -50,7 +50,7 @@ const ProjectTaskPage = () => {
       if (savedSelectedTaskOrSubtask === "task") {
         handleShowTask();
       } else if (savedSelectedTaskOrSubtask === "subtask") {
-        handleSubTasks();
+        handleShowSubTasks();
       }
     } else {
       handleShowTask(); // Default to task view
@@ -139,42 +139,45 @@ const ProjectTaskPage = () => {
     updateId,
     updatedSubTaskId,
   ]);
-  const handleSubTasks = () => {
+  const handleShowSubTasks = async () => {
     setAddIcon("subtask");
     localStorage.setItem("addIcon", "subtask");
     setisComment(false);
-    fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(token),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setNewtok(data.access);
-      });
+    try {
+      const response = await fetch(
+        `https://softobn.pythonanywhere.com/api/user/refresh/`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(token),
+        }
+      );
 
-    console.log(newtok);
-
-    fetch(
-      `https://softobn.pythonanywhere.com/api/user/subtask-list/?task_id=${id}`,
-      {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${newtok}`,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        // setTaskList(data);
-        setShowSubTask(data);
-        console.log(data);
-      });
+      const data = await response.json();
+      setNewtok(data.access);
+      fetch(
+        `https://softobn.pythonanywhere.com/api/user/subtask-list/?task_id=${id}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${data.access}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          // setTaskList(data);
+          setShowSubTask(data);
+          console.log(data);
+        });
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
   };
   const handleAddSubTask = () => {
     localStorage.setItem("addIcon", "subtask");
@@ -205,22 +208,8 @@ const ProjectTaskPage = () => {
     setUpdateId(id);
     setNavigateToUpdateTask(true);
   };
-  // const handleUpdateTask = (id) => {
-  //   setUpdateId(id);
-  //   console.log(id);
-  //   if (updateId > 0) {
-  //     navigate("/updateTask", {
-  //       state: {
-  //         devProjectIds,
-  //         pathname: location?.pathname,
-  //       },
-  //     });
-  //   }
-  // };
-
-  // old
   const handleMarkStatus = async (id) => {
-    // console.log(id);
+    console.log(id);
     fetch(`https://softobn.pythonanywhere.com/api/user/refresh/`, {
       method: "POST",
       credentials: "include",
@@ -233,7 +222,6 @@ const ProjectTaskPage = () => {
       .then((data) => {
         setNewtok(data.access);
       });
-
     console.log("newtok", newtok);
     try {
       const status = {
@@ -451,7 +439,7 @@ const ProjectTaskPage = () => {
             <span>Task</span>
           </button>
           <button
-            onClick={handleSubTasks}
+            onClick={handleShowSubTasks}
             className={`${
               addIcon === "subtask"
                 ? "bg-blue-500 hover:bg-blue-500"
@@ -468,7 +456,7 @@ const ProjectTaskPage = () => {
           <p>Requirements: {projectInfo?.requirements}</p>
         </div>
 
-        <div className="flex ">
+        <div className="flex">
           <div className="overflow-x-auto overflow-auto min-h-[30vh] md:max-h-[45vh] lg:max-h-[40vh] xl:max-h-[55vh] w-full">
             {/* new added */}
 
