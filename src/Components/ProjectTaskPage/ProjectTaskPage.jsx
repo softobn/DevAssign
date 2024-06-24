@@ -27,7 +27,9 @@ const ProjectTaskPage = () => {
   const token = { Access: accessToken, refresh: refreshToken };
   const [navigateToUpdateTask, setNavigateToUpdateTask] = useState(false);
   const [navigateToUpdateSubTask, setNavigateToUpdateSubTask] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     fetch(`https://softobn.pythonanywhere.com/api/user/project-list/`, {
       method: "GET",
       credentials: "include",
@@ -37,6 +39,7 @@ const ProjectTaskPage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setIsLoading(false);
         setAllProjectInfo(data);
       });
   }, []);
@@ -143,6 +146,7 @@ const ProjectTaskPage = () => {
     setAddIcon("subtask");
     localStorage.setItem("addIcon", "subtask");
     setisComment(false);
+    setIsLoading(true);
     try {
       const response = await fetch(
         `https://softobn.pythonanywhere.com/api/user/refresh/`,
@@ -173,6 +177,7 @@ const ProjectTaskPage = () => {
         .then((data) => {
           // setTaskList(data);
           setShowSubTask(data);
+          setIsLoading(false);
           console.log(data);
         });
     } catch (error) {
@@ -458,151 +463,160 @@ const ProjectTaskPage = () => {
 
         <div className="flex">
           <div className="overflow-x-auto overflow-auto min-h-[30vh] md:max-h-[45vh] lg:max-h-[40vh] xl:max-h-[55vh] w-full">
-            {/* new added */}
 
-            <div className="h-full flex justify-center items-center text-xl md:text-3xl text-center font-bold">
-              {addIcon === "task" && taskList.length === 0 ? (
-                <h1 className="text-pink-500">
-                  <span>There has no Task available.</span>
-                  <br />
-                  <span>For add a Task click on {"< + >"} icon.</span>
-                </h1>
-              ) : addIcon === "subtask" && showSubTask.length === 0 ? (
-                <h1 className="text-teal-500">
-                  <span>There has no Sub-Task available.</span>
-                  <br />
-                  <span>For add a Sub-Task click on {"< + >"} icon.</span>
-                </h1>
-              ) : (
-                // <></>
-                <table
-                  className={`${
-                    addIcon === "task" && taskList.length === 0
-                      ? "hidden"
-                      : addIcon === "subtask" && showSubTask.length === 0
-                      ? "hidden"
-                      : "block table"
-                  }`}
-                  //  className="table"
-                >
-                  {/* head */}
-                  <thead>
-                    <tr className="font-bold">
-                      <th>*</th>
-                      <th className="font-bold">
-                        {addIcon === "task" ? "Task Title" : "Sub-Task Title"}
-                      </th>
-                      <th className="font-bold">Email</th>
-                      {addIcon === "subtask" && (
-                        <th className="font-bold">Task Title</th>
-                      )}
-                      <th className="font-bold">Deadline</th>
-                      <th className="font-bold">Requirements</th>
-                      <th className="font-bold">Description</th>
-                      <th className="font-bold">Update</th>
-                      <th className="font-bold">Status</th>
-                      <th className="font-bold">Comments</th>
-                    </tr>
-                  </thead>
-                  {(showSubTask.length >= 0 && addIcon !== "task"
-                    ? showSubTask
-                    : taskList
-                  )?.map((info, index) => (
-                    <tbody key={index}>
-                      <tr className="font-medium ">
-                        <th>{index + 1}</th>
-                        <td>{info?.title}</td>
-                        <td>
-                          <div className="flex gap-1 items-center">
-                            <MdOutlineMarkEmailUnread size={20} />
-                            {info?.developer_email}
-                          </div>
-                        </td>
-                        {addIcon === "subtask" && <td>{info?.task_title}</td>}
-                        <td>{info?.deadline}</td>
-                        <td>{info?.requirements}</td>
-                        <td>{info?.description}</td>
-                        <td>
-                          <div className="">
-                            {addIcon === "task" ? (
-                              <button
-                                onClick={() => handleUpdateTask(info?.id)}
-                                className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
-                              >
-                                <span onChange={() => setUpdateId(info.id)}>
-                                  Update
-                                </span>
-                              </button>
-                            ) : (
-                              <button
-                                onClick={() => handleUpdateSubTask(info?.id)}
-                                className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
-                              >
-                                Update
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          {addIcon === "task" && (
-                            <div className="">
-                              {info?.is_complete === false &&
-                              info?.is_active === true ? (
-                                <button
-                                  onClick={() => handleMarkStatus(info?.id)}
-                                  className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
-                                >
-                                  On Going
-                                </button>
-                              ) : info?.is_complete === true &&
-                                info?.is_active === true ? (
-                                <button className="font-bold text-white rounded-md px-3 py-1 bg-red-500">
-                                  Lately
-                                </button>
-                              ) : info?.is_complete === true &&
-                                info?.is_active === false ? (
-                                <button className="font-bold text-white rounded-md px-3 py-1 bg-green-700">
-                                  Done
-                                </button>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          )}
-                          {addIcon === "subtask" && (
-                            <div>
-                              {info?.is_complete === true ? (
-                                <button className="font-bold text-white rounded-md px-3 py-1 bg-green-700">
-                                  Done
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => handleMarkStatus(info?.id)}
-                                  className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
-                                >
-                                  On Going
-                                </button>
-                              )}
-                            </div>
-                          )}
-                        </td>
-                        <td>
-                          <button
-                            onClick={() => handleComment(info.id, addIcon)}
-                            className="font-bold text-white rounded-md px-3 py-1 bg-teal-500 focus:bg-blue-400"
-                            tabIndex="0"
-                          >
-                            <span onClick={() => setisComment(true)}>
-                              Comments
-                            </span>
-                          </button>
-                        </td>
+            {isLoading ? (
+              <div className="text-center w-full mx-auto h-full my-10">
+                <div className="mx-auto w-16 h-16 flex gap-2 items-center justify-center">
+                  <div className="w-2 h-5 animate-[ping_1.4s_linear_infinite] bg-sky-600"></div>
+                  <div className="w-2 h-5 animate-[ping_1.8s_linear_infinite] bg-sky-600"></div>
+                  <div className="w-2 h-5 animate-[ping_2s_linear_infinite] bg-sky-600"></div>
+                </div>
+              </div>
+            ) : (
+              <div className="h-full flex justify-center items-center text-xl md:text-3xl text-center font-bold">
+                {addIcon === "task" && taskList.length === 0 ? (
+                  <h1 className="text-pink-500">
+                    <span>There has no Task available.</span>
+                    <br />
+                    <span>For add a Task click on {"< + >"} icon.</span>
+                  </h1>
+                ) : addIcon === "subtask" && showSubTask.length === 0 ? (
+                  <h1 className="text-teal-500">
+                    <span>There has no Sub-Task available.</span>
+                    <br />
+                    <span>For add a Sub-Task click on {"< + >"} icon.</span>
+                  </h1>
+                ) : (
+                  // <></>
+                  <table
+                    className={`${
+                      addIcon === "task" && taskList.length === 0
+                        ? "hidden"
+                        : addIcon === "subtask" && showSubTask.length === 0
+                        ? "hidden"
+                        : "block table"
+                    }`}
+                    //  className="table"
+                  >
+                    {/* head */}
+                    <thead>
+                      <tr className="font-bold">
+                        <th>*</th>
+                        <th className="font-bold">
+                          {addIcon === "task" ? "Task Title" : "Sub-Task Title"}
+                        </th>
+                        <th className="font-bold">Email</th>
+                        {addIcon === "subtask" && (
+                          <th className="font-bold">Task Title</th>
+                        )}
+                        <th className="font-bold">Deadline</th>
+                        <th className="font-bold">Requirements</th>
+                        <th className="font-bold">Description</th>
+                        <th className="font-bold">Update</th>
+                        <th className="font-bold">Status</th>
+                        <th className="font-bold">Comments</th>
                       </tr>
-                    </tbody>
-                  ))}
-                </table>
-              )}
-            </div>
+                    </thead>
+                    {(showSubTask.length >= 0 && addIcon !== "task"
+                      ? showSubTask
+                      : taskList
+                    )?.map((info, index) => (
+                      <tbody key={index}>
+                        <tr className="font-medium ">
+                          <th>{index + 1}</th>
+                          <td>{info?.title}</td>
+                          <td>
+                            <div className="flex gap-1 items-center">
+                              <MdOutlineMarkEmailUnread size={20} />
+                              {info?.developer_email}
+                            </div>
+                          </td>
+                          {addIcon === "subtask" && <td>{info?.task_title}</td>}
+                          <td>{info?.deadline}</td>
+                          <td>{info?.requirements}</td>
+                          <td>{info?.description}</td>
+                          <td>
+                            <div className="">
+                              {addIcon === "task" ? (
+                                <button
+                                  onClick={() => handleUpdateTask(info?.id)}
+                                  className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
+                                >
+                                  <span onChange={() => setUpdateId(info.id)}>
+                                    Update
+                                  </span>
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => handleUpdateSubTask(info?.id)}
+                                  className="font-bold text-white rounded-md px-3 py-1 bg-blue-600"
+                                >
+                                  Update
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            {addIcon === "task" && (
+                              <div className="">
+                                {info?.is_complete === false &&
+                                info?.is_active === true ? (
+                                  <button
+                                    onClick={() => handleMarkStatus(info?.id)}
+                                    className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
+                                  >
+                                    On Going
+                                  </button>
+                                ) : info?.is_complete === true &&
+                                  info?.is_active === true ? (
+                                  <button className="font-bold text-white rounded-md px-3 py-1 bg-red-500">
+                                    Lately
+                                  </button>
+                                ) : info?.is_complete === true &&
+                                  info?.is_active === false ? (
+                                  <button className="font-bold text-white rounded-md px-3 py-1 bg-green-700">
+                                    Done
+                                  </button>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            )}
+                            {addIcon === "subtask" && (
+                              <div>
+                                {info?.is_complete === true ? (
+                                  <button className="font-bold text-white rounded-md px-3 py-1 bg-green-700">
+                                    Done
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => handleMarkStatus(info?.id)}
+                                    className="font-bold text-white rounded-md px-3 py-1 bg-pink-500"
+                                  >
+                                    On Going
+                                  </button>
+                                )}
+                              </div>
+                            )}
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => handleComment(info.id, addIcon)}
+                              className="font-bold text-white rounded-md px-3 py-1 bg-teal-500 focus:bg-blue-400"
+                              tabIndex="0"
+                            >
+                              <span onClick={() => setisComment(true)}>
+                                Comments
+                              </span>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    ))}
+                  </table>
+                )}
+              </div>
+            )}
           </div>
           {/* comment section */}
 
