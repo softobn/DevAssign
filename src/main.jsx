@@ -30,63 +30,88 @@ const router = createBrowserRouter([
 
       {
         path: "/developer",
-        element: <Privat><Developer></Developer></Privat>,
+        element: (
+          <Privat>
+            <Developer></Developer>
+          </Privat>
+        ),
       },
 
       {
         path: "/projects",
-        element: <Privat><Projects></Projects></Privat>,
+        element: (
+          <Privat>
+            <Projects></Projects>
+          </Privat>
+        ),
         children: [
           {
             path: "/projects/inprocess",
-            element: <Privat><Inprocess></Inprocess></Privat>,
+            element: (
+              <Privat>
+                <Inprocess></Inprocess>
+              </Privat>
+            ),
           },
           {
             path: "/projects/complete",
-            element: <Privat><Complete></Complete></Privat>,
+            element: (
+              <Privat>
+                <Complete></Complete>
+              </Privat>
+            ),
           },
         ],
       },
       {
         path: "/tasks/:id",
-        element: <Privat><ProjectTaskPage /></Privat>,
+        element: (
+          <Privat>
+            <ProjectTaskPage />
+          </Privat>
+        ),
       },
 
       {
         path: "/updateTask",
-        element: <Privat><UpdateTaskPage></UpdateTaskPage></Privat>,
+        element: (
+          <Privat>
+            <UpdateTaskPage></UpdateTaskPage>
+          </Privat>
+        ),
       },
       {
         path: "/addTask",
-        element: <Privat><AddTaskPage></AddTaskPage></Privat>,
-      },
-      {
-        path: "/updateTask/:id",
-        element: <Privat><UpdateTaskPage></UpdateTaskPage></Privat>,
-        loader: ({ params }) =>
-          fetch(
-            `https://softobn.pythonanywhere.com/api/user/task-list/?project_id=${params.id}`,
-            {
-              method: "GET",
-              credentials: "include",
-              headers: {
-                "content-type": "application/json",
-              },
-            }
-          ),
+        element: (
+          <Privat>
+            <AddTaskPage></AddTaskPage>
+          </Privat>
+        ),
       },
       {
         path: "/createSubtasks",
-        element: <Privat><CreateSubTask></CreateSubTask></Privat>,
+        element: (
+          <Privat>
+            <CreateSubTask></CreateSubTask>
+          </Privat>
+        ),
       },
       {
         path: "/updateSubTask",
-        element:<Privat><UpdateSubTaskPage></UpdateSubTaskPage></Privat>,
+        element: (
+          <Privat>
+            <UpdateSubTaskPage></UpdateSubTaskPage>
+          </Privat>
+        ),
       },
 
       {
         path: "/createProject",
-        element: <Privat><CreateProject></CreateProject></Privat>,
+        element: (
+          <Privat>
+            <CreateProject></CreateProject>
+          </Privat>
+        ),
       },
     ],
   },

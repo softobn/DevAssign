@@ -6,7 +6,7 @@ const AddTaskPage = () => {
   const navigate = useNavigate();
   const { devProjectIds } = location.state;
   const accessToken = localStorage.getItem("Access token");
-  const UpdatedData = devProjectIds?.taskList.find(
+  const UpdatedData = devProjectIds?.taskList?.find(
     (info) => info.id === devProjectIds?.updateId
   );
   const handleAddTask = (e) => {
